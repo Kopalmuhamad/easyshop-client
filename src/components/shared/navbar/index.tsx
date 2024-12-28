@@ -1,21 +1,13 @@
 import Container from "../container";
 import Logo from "../logo";
 import DesktopNavigation from "@/components/organisme/desktop-navigation";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/atoms/dialog";
+
 import {
   LayoutDashboardIcon,
   LogOutIcon,
-  ShoppingBasketIcon,
   UserIcon,
 } from "lucide-react";
-import { Button, buttonVariants } from "@/components/atoms/button";
-import { DialogDescription } from "@radix-ui/react-dialog";
+import {  buttonVariants } from "@/components/atoms/button";
 import MobileNavigation from "@/components/organisme/mobile-navigation";
 import { useCurrentUser } from "@/features/auth/hooks/use-current-user";
 import {
@@ -29,6 +21,7 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useLogout } from "@/features/auth/hooks/use-logout";
 import PopUpSearchProduct from "@/components/moleculs/pop-up-search-product";
+import PopUpCarts from "@/components/moleculs/pop-up-carts";
 
 const Navbar = () => {
   const { mutate: logout } = useLogout();
@@ -41,24 +34,7 @@ const Navbar = () => {
         <DesktopNavigation className="hidden md:flex col-start-2 row-start-1" />
         <MobileNavigation className="md:hidden col-start-1 row-start-1" />
         <PopUpSearchProduct />
-        <Dialog>
-          <DialogTrigger
-            asChild
-            className="hidden md:flex md:col-start-4 md:row-start-1 mx-1"
-          >
-            <Button variant={"outline"} size={"icon"}>
-              <ShoppingBasketIcon size={18} />
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Cart</DialogTitle>
-              <DialogDescription>
-                You have no items in your cart
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+        <PopUpCarts />
         {!currentUser ? (
           <Link
             to={"/login"}

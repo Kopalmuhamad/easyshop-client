@@ -23,11 +23,15 @@ const links = [
   },
   {
     name: "New Arrival",
-    path: "/new-arrival",
+    path: "/collections/new-arrivals",
   },
   {
     name: "Features",
-    path: "/features",
+    path: "/collections/features",
+  },
+  {
+    name: "Best Seller",
+    path: "/collections/best-seller",
   },
   {
     name: "Collections",

@@ -32,7 +32,10 @@ export const useCreateAddress = () => {
       await axiosWithConfig.post("/address", data);
     },
     onSuccess: () => {
-      navigate(0);
+      navigate("/profile");
+      toast({
+        title: "Address created successfully",
+      })
     },
     onError: (error) => {
       if (error instanceof AxiosError && error.response) {

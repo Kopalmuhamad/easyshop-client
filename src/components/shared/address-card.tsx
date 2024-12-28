@@ -10,6 +10,7 @@ import {
 import { Button } from "../atoms/button";
 import { useSetDefaultAddress } from "@/features/address/hooks/use-set-default-address";
 import { useRemoveAddress } from "@/features/address/hooks/use-remove-address";
+import { Badge } from "../atoms/badge";
 
 interface IAddressCardProps {
   address: IAddress;
@@ -18,11 +19,13 @@ const AddressCard = ({ address }: IAddressCardProps) => {
   const { mutate: setAsDefault } = useSetDefaultAddress();
   const { mutate: removeAddress } = useRemoveAddress();
   return (
-    <Card className="h-fit">
+    <Card className="h-full">
       <CardHeader>
         <CardTitle className="capitalize">{address?.detail}</CardTitle>
         <CardDescription>
-          {address?.defaultAddress ? "Default" : ""}
+          {address?.defaultAddress && (
+            <Badge>{address?.defaultAddress ? "Default" : ""}</Badge>
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -60,7 +63,7 @@ const AddressCard = ({ address }: IAddressCardProps) => {
         </div>
       </CardContent>
       <CardFooter className="space-x-4">
-        {address?.defaultAddress && (
+        {!address?.defaultAddress && (
           <Button
             onClick={() => setAsDefault(address?._id)}
             variant={"outline"}

@@ -1,6 +1,6 @@
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRightIcon } from "lucide-react";
-import { Button } from "../atoms/button";
+import { buttonVariants } from "../atoms/button";
 import {
   Carousel,
   CarouselContent,
@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../atoms/carousel";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -20,9 +21,9 @@ const Hero = () => {
           perferendis reiciendis deleniti cumque ad nihil iste laboriosam sint
           quos nostrum.
         </p>
-        <Button>
+        <Link to="/collections" className={buttonVariants({})}>
           Shop Now <ArrowRightIcon />
-        </Button>
+        </Link>
       </div>
       <Carousel
         className="absolute z-30 left-0 right-0"

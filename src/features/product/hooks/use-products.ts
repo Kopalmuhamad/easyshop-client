@@ -2,15 +2,28 @@ import { axiosWithConfig } from "@/services/api/axios-with-config";
 import { useQuery } from "@tanstack/react-query";
 import { IProductResponse } from "../utils/product-interface";
 
-export const useProducts = () => {
+interface IProps {
+  [key: string]: string | number;
+}
+
+export const useProducts = (params?: IProps) => {
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", params],
     queryFn: async () => {
-      const response = await axiosWithConfig.get<IProductResponse>("/product");
-      return {
-        products: response?.data.data,
-        pagination: response?.data.pagination,
-      };
+      try {
+        const response = await axiosWithConfig.get<IProductResponse>(
+          "/product",
+          {
+            params: params || {},
+          }
+        );
+        return {
+          products: response?.data.data,
+          pagination: response?.data.pagination,
+        };
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
 };

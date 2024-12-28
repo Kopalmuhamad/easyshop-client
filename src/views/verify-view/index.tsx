@@ -1,4 +1,3 @@
-import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
@@ -8,11 +7,25 @@ import {
   CardTitle,
 } from "@/components/atoms/card";
 import Container from "@/components/shared/container";
+import Loader from "@/components/shared/loader";
 import VerifyForm from "@/features/auth/components/verify-form";
 import { useGenerateOtp } from "@/features/auth/hooks/use-generate-otp";
+import { Link } from "react-router-dom";
 
 const VerifyView = () => {
-  const { mutate: generateOtp } = useGenerateOtp();
+  const { mutate: generateOtp, status } = useGenerateOtp();
+  const isLoading = status === "pending";
+
+  if (isLoading) {
+    return (
+      <div className="relative w-screen h-screen">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Container className="min-h-screen flex items-center justify-center">
@@ -30,16 +43,18 @@ const VerifyView = () => {
             <VerifyForm />
           </CardContent>
           <CardFooter>
-            <p>
+            <p className="text-sm">
               <span>Didn't receive the email? </span>
-              <Button
-                type="button"
-                variant={"link"}
-                className="px-1"
+              <span
                 onClick={() => generateOtp()}
+                className="hover:underline font-medium cursor-pointer"
               >
-                Resend
-              </Button>
+                Resend OTP
+              </span>{" "}
+              or skip for now and{" "}
+              <Link to="/login" className="hover:underline font-medium">
+                Login
+              </Link>
             </p>
           </CardFooter>
         </Card>

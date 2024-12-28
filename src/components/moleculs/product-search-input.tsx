@@ -23,7 +23,10 @@ const ProductSearchInput = () => {
         <CommandGroup heading="Product">
           {products?.map((product) => (
             <CommandItem>
-              <Link to={`/product/${product._id}`} className="flex w-full">
+              <Link
+                to={`/collections/detail/${product._id}`}
+                className="flex w-full"
+              >
                 <Card className="w-full flex items-start justify-start gap-2 flex-nowrap">
                   <figure className="w-24 aspect-square">
                     <img
@@ -33,10 +36,10 @@ const ProductSearchInput = () => {
                     />
                   </figure>
                   <div className="py-3 pl-2">
-                    <h1 className="text-base font-medium">
-                    {product.name}
-                    </h1>
-                    <h3 className="text-sm font-medium">{formatCurrency(product.price)}</h3>
+                    <h1 className="text-base font-medium">{product.name}</h1>
+                    <h3 className="text-sm font-medium">
+                      {formatCurrency(product.price)}
+                    </h3>
                   </div>
                 </Card>
               </Link>

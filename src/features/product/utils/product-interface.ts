@@ -9,6 +9,11 @@ export interface IProduct {
   };
   description: string;
   image: string[];
+  newArrivals: boolean;
+  bestSeller: boolean;
+  featured: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IProductResponse {

@@ -1,5 +1,12 @@
 import { buttonVariants } from "@/components/atoms/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/atoms/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/atoms/card";
 import Container from "@/components/shared/container";
 import RegisterForm from "@/features/auth/components/register-form";
 import { cn } from "@/lib/utils";
@@ -24,7 +31,7 @@ const RegisterView = () => {
               <p className="text-nowrap">Already have an account ?</p>
               <Link
                 className={cn(buttonVariants({ variant: "link" }), "px-1")}
-                to={"/register"}
+                to={"/login"}
               >
                 Please login
               </Link>
