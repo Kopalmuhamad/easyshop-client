@@ -26,7 +26,7 @@ Sebelum memulai, pastikan Anda telah menginstal perangkat berikut:
    git clone https://github.com/Kopalmuhamad/easyshop-client.git
    cd easyshop-client
    yarn install
-   yarn dev```
+   yarn dev
 
 2. **Akun untuk mencoba**:
    Admin : Email : admin@example.com
