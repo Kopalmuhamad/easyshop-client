@@ -15,6 +15,14 @@ import { Input } from "@/components/atoms/input";
 import { Button } from "@/components/atoms/button";
 import { Textarea } from "@/components/atoms/textarea";
 import Loader from "@/components/shared/loader";
+import { useCategories } from "@/features/categories/hooks/use-categories";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/atoms/select";
 
 const CreateProductForm = () => {
   const form = useForm<z.infer<typeof productSchema>>({
@@ -30,6 +38,7 @@ const CreateProductForm = () => {
   });
 
   const { mutate: product, status } = useCreateProduct();
+  const { data: categories } = useCategories();
 
   const isLoading = status === "pending";
 
@@ -121,13 +130,21 @@ const CreateProductForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product category</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="text"
-                  placeholder="Enter your product description"
-                />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Please choose a category" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categories?.map((category) => (
+                    <SelectItem className="capitalize" value={category.name}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}

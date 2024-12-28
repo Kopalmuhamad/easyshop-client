@@ -9,6 +9,7 @@ import {
 import { PencilIcon } from "lucide-react";
 import { Button } from "../atoms/button";
 import { IProduct } from "@/features/product/utils/product-interface";
+import { ScrollArea } from "../atoms/scroll-area";
 
 interface IPopUpEditProductProps {
   product: IProduct;
@@ -27,7 +28,9 @@ const PopUpEditProduct = ({ product }: IPopUpEditProductProps) => {
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
-        <EditProductForm product={product} />
+        <ScrollArea className="h-[70vh]">
+          <EditProductForm product={product} />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

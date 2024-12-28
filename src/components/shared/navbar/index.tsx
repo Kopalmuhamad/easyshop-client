@@ -28,7 +28,7 @@ const Navbar = () => {
   const { data: currentUser } = useCurrentUser();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-center shadow-md bg-background">
+    <nav className="fixed top-0 left-0 right-0 z-[1001] h-16 flex items-center justify-center shadow-md bg-background">
       <Container className="h-full grid grid-cols-3 md:grid-cols-[auto_1fr_auto_auto_auto] items-center">
         <Logo className="col-start-1 row-start-1 hidden md:flex" />
         <DesktopNavigation className="hidden md:flex col-start-2 row-start-1" />
@@ -56,7 +56,7 @@ const Navbar = () => {
                 <AvatarFallback>CV</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="z-[1002]">
               <Link to="/profile">
                 <DropdownMenuItem className="cursor-pointer">
                   <span>

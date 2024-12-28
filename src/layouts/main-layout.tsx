@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
     <main className="relative h-full min-h-screen">
       <Navbar />
-      <ModeToggle className="fixed bottom-2 right-2" />
+      <ModeToggle className="fixed bottom-2 right-2 z-[999]" />
       <Outlet />
       <Footer />
     </main>

@@ -11,7 +11,7 @@ import CreateAddressForm from "@/features/address/components/create-address-form
 
 const CreateAddressView = () => {
   return (
-    <Container>
+    <Container className="pt-20 pb-10">
       <Card>
         <CardHeader>
           <CardTitle>Create Address</CardTitle>

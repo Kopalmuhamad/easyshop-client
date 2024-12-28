@@ -1,3 +1,4 @@
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardDescription,
@@ -7,15 +8,18 @@ import {
 import ProductCard from "@/components/moleculs/product-card";
 import Loader from "@/components/shared/loader";
 import { useProducts } from "@/features/product/hooks/use-products";
+import { useState } from "react";
 
 const AdminProductsView = () => {
-  const { data: productsData, isLoading } = useProducts({});
+  const [limit, setLimit] = useState(100);
+  const { data: productsData, isLoading } = useProducts({ limit: limit });
+  console.log(limit);
 
-  const { products } = productsData || {};
+  const { products, pagination } = productsData || {};
 
   if (isLoading) {
     return (
-      <div className="relative w-screen h-screen">
+      <div className="relative h-screen">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Loader />
         </div>
@@ -39,15 +43,20 @@ const AdminProductsView = () => {
   }
 
   return (
-    <div className="space-y-4 mt-2">
+    <div className="space-y-4 mt-2 pb-4">
       <header>
         <h1 className="text-2xl font-semibold">Products</h1>
       </header>
-      <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <main className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {products?.map((product) => (
           <ProductCard isAdmin={true} key={product._id} product={product} />
         ))}
       </main>
+      {pagination && pagination?.totalPages > 1 && (
+        <footer className="flex justify-center">
+          <Button onClick={() => setLimit(limit + 10)}>Load more</Button>
+        </footer>
+      )}
     </div>
   );
 };

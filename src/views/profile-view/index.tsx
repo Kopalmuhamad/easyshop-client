@@ -98,7 +98,7 @@ const ProfileView = () => {
             <span className="text-muted-foreground">{currentUser?.phone}</span>
           </div>
         </CardContent>
-        <CardFooter className="flex items-center justify-start gap-2">
+        <CardFooter className="flex items-center justify-start flex-wrap gap-2">
           <PopUpUpdateUser />
           <PopUpUpdatePassword />
           {currentUser?.isVerified === false && (

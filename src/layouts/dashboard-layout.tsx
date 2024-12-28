@@ -6,9 +6,11 @@ const DashboardLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="pl-2 w-full">
-        <SidebarTrigger />
-        <Outlet />
+      <main className="relative pl-2 w-full">
+        <SidebarTrigger className="fixed top-2 left-2 z-50 bg-secondary" />
+        <div className="pt-10">
+          <Outlet />
+        </div>
       </main>
     </SidebarProvider>
   );

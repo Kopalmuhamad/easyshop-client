@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/atoms/dialog";
 import UpdateUserForm from "../../features/auth/components/update-user-form";
+import { ScrollArea } from "../atoms/scroll-area";
 
 const PopUpUpdateUser = () => {
   return (
@@ -18,7 +19,9 @@ const PopUpUpdateUser = () => {
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
-        <UpdateUserForm />
+        <ScrollArea className="max-h-[80vh]">
+          <UpdateUserForm />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

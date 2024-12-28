@@ -10,7 +10,7 @@ interface ICategoryCardProps {
 
 const CategoryCard = ({ category, hideFooter = true }: ICategoryCardProps) => {
   return (
-    <Card className="overflow-hidden">
+    <Card className="h-full overflow-hidden bg-secondary dark:bg-white dark:text-black">
       <Link
         to={`/collections/category/${category.name}`}
         className="flex flex-col items-center justify-center"
@@ -18,7 +18,7 @@ const CategoryCard = ({ category, hideFooter = true }: ICategoryCardProps) => {
         <figure className="flex items-center justify-center pt-5">
           <img src={category.image} alt={category.name} className="w-12" />
         </figure>
-        <CardContent className="flex items-center justify-center">
+        <CardContent className="flex items-center justify-center text-center">
           <h1 className="text-base font-medium capitalize">{category.name}</h1>
         </CardContent>
       </Link>

@@ -18,6 +18,7 @@ import NewArrivalPage from "@/pages/new-arrival-page";
 import FeaturesPage from "@/pages/features-page";
 import BestSellerPage from "@/pages/best-seller-page";
 import ProductsByCategoryPage from "@/pages/products-by-category-page";
+import CategoriesPage from "@/pages/categories-page";
 
 const ProfilePage = lazy(() => import("@/pages/profile-page"));
 const CreateAddressPage = lazy(() => import("@/pages/create-address-page"));
@@ -55,6 +56,7 @@ const routes = createRoutesFromElements(
       <Route path="/collections/new-arrivals" element={<NewArrivalPage />} />
       <Route path="/collections/features" element={<FeaturesPage />} />
       <Route path="/collections/best-seller" element={<BestSellerPage />} />
+      <Route path="/categories" element={<CategoriesPage />} />
       <Route
         path="/collections/detail/:productId"
         element={<DetailProductPage />}
