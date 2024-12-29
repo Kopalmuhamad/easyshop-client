@@ -10,6 +10,7 @@ import CategoryCard from "@/components/shared/category-card";
 import Container from "@/components/shared/container";
 import { useCategories } from "@/features/categories/hooks/use-categories";
 import { useProducts } from "@/features/product/hooks/use-products";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,8 @@ const HomeView = () => {
   const featuredProducts = products?.filter((product) => product.featured);
   const bestSellerProducts = products?.filter((product) => product.bestSeller);
   const newArrivals = products?.filter((product) => product.newArrivals);
+
+  const isMobile = useIsMobile();
 
   return (
     <div>
@@ -63,11 +66,23 @@ const HomeView = () => {
               View all
             </Link>
           </header>
-          <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {newArrivals?.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </main>
+          {isMobile ? (
+            <Carousel>
+              <CarouselContent>
+                {newArrivals?.map((product) => (
+                  <CarouselItem className="basis-1/1" key={product._id}>
+                    <ProductCard key={product._id} product={product} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          ) : (
+            <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {newArrivals?.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </main>
+          )}
         </Container>
       )}
 
@@ -84,11 +99,23 @@ const HomeView = () => {
                 View all
               </Link>
             </header>
-            <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-              {featuredProducts?.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </main>
+            {isMobile ? (
+              <Carousel>
+                <CarouselContent>
+                  {featuredProducts?.map((product) => (
+                    <CarouselItem className="basis-1/1" key={product._id}>
+                      <ProductCard key={product._id} product={product} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            ) : (
+              <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {featuredProducts?.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </main>
+            )}
           </Container>
         </div>
       )}
@@ -105,11 +132,23 @@ const HomeView = () => {
               View all
             </Link>
           </header>
-          <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {bestSellerProducts?.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </main>
+          {isMobile ? (
+            <Carousel>
+              <CarouselContent>
+                {bestSellerProducts?.map((product) => (
+                  <CarouselItem className="basis-1/1" key={product._id}>
+                    <ProductCard key={product._id} product={product} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          ) : (
+            <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {bestSellerProducts?.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </main>
+          )}
         </Container>
       )}
     </div>

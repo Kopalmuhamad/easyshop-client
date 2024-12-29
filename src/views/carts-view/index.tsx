@@ -90,10 +90,10 @@ const CartsView = () => {
           </Card>
         ))}
       </main>
-      <div className="fixed bottom-0 left-0 right-0 z-[999] w-full bg-secondary p-4 shadow-xl border-t-2 border-primary flex items-center justify-between">
+      <div className="fixed bottom-0 left-0 right-0 z-[999] w-full bg-secondary p-4 shadow-xl border-t-2 border-primary flex items-end justify-between gap-6">
         <ActionDeleteAllCartItem />
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4">
-          <h1 className="text-base font-semibold text-start">
+        <div className="w-fit flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4">
+          <h1 className="text-base font-semibold text-start w-fit">
             <span>Total Checkout Price : </span>
             <span>{formatCurrency(carts?.totalAmount || 0)}</span>
           </h1>

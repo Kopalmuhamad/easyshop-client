@@ -4,11 +4,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/atoms/carousel";
 import ProductCard from "@/components/moleculs/product-card";
 import Container from "@/components/shared/container";
 import Loader from "@/components/shared/loader";
 import PaginationProduct from "@/components/shared/pagination-product";
 import { useProducts } from "@/features/product/hooks/use-products";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useParams, useSearchParams } from "react-router-dom";
 
 const ProductsByCategoryView = () => {
@@ -25,6 +31,8 @@ const ProductsByCategoryView = () => {
       page: page.toString(),
     });
   };
+
+  const isMobile = useIsMobile();
 
   if (isLoading) {
     return (
@@ -57,11 +65,25 @@ const ProductsByCategoryView = () => {
       <header className="flex items-center justify-between">
         <h1 className="text-xl font-semibold capitalize">{categorySlug}</h1>
       </header>
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        {products?.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </main>
+
+      {isMobile ? (
+        <Carousel>
+          <CarouselContent>
+            {products?.map((product) => (
+              <CarouselItem className="basis-1/1" key={product._id}>
+                <ProductCard product={product} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      ) : (
+        <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          {products?.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </main>
+      )}
+
       <PaginationProduct
         handlePageChange={handlePageChange}
         currentPage={currentPage}

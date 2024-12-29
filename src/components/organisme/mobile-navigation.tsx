@@ -39,7 +39,7 @@ const links = [
   },
   {
     name: "Cart",
-    path: "/carts",
+    path: "/profile/carts",
   },
 ];
 

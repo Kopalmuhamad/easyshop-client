@@ -7,8 +7,8 @@ const DashboardLayout = () => {
     <SidebarProvider>
       <AppSidebar />
       <main className="relative pl-2 w-full">
-        <SidebarTrigger className="fixed top-2 left-2 z-50 bg-secondary" />
-        <div className="pt-10">
+        <SidebarTrigger className="md:static fixed top-2 left-2 z-50 bg-secondary" />
+        <div className="pt-10 md:pt-2">
           <Outlet />
         </div>
       </main>

@@ -17,8 +17,6 @@ export const useLogin = () => {
       const response = await axiosWithConfig.post("/auth/login", data);
       if (response.data.data.role === "admin") {
         navigate("/admin");
-      } else {
-        navigate("/");
       }
     },
     onSuccess: () => {
