@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from "react-redux";
+import { toggleProductSelection } from "@/store/slices/selected-order-slice";
+import { RootState } from "@/store/store";
 import { Button } from "@/components/atoms/button";
 import {
   Card,
@@ -14,10 +17,20 @@ import ActionDeleteCartItem from "@/features/cart/components/action-delete-cart-
 import FormAddToCart from "@/features/cart/components/form-add-to-cart";
 import { useCarts } from "@/features/cart/hooks/use-carts";
 import { formatCurrency } from "@/lib/format-currency";
-import { Link } from "react-router-dom";
+import { Checkbox } from "@/components/atoms/checkbox";
+import { useNavigate } from "react-router-dom";
 
 const CartsView = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const selectedProducts = useSelector(
+    (state: RootState) => state.checkout.selectedProducts
+  );
   const { data: carts, isLoading } = useCarts();
+
+  const handleCheckboxChange = (productId: string, quantity: number = 1) => {
+    dispatch(toggleProductSelection({ productId, quantity }));
+  };
 
   if (isLoading) {
     return (
@@ -36,8 +49,8 @@ const CartsView = () => {
           <CardHeader>
             <CardTitle>Carts not found</CardTitle>
             <CardDescription>
-              Currently you have no any carts, please add items to your cart for
-              checkout
+              Currently you have no carts. Please add items to your cart for
+              checkout.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -54,15 +67,25 @@ const CartsView = () => {
         </p>
       </header>
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        {carts?.items.map((item) => (
-          <Card
-            key={item.product._id}
-            className=" max-w-[300px] w-full h-full rounded-md overflow-hidden"
-          >
-            <Link
-              to={`/collections/detail/${item.product._id}`}
-              className="flex flex-col items-start justify-center"
+        {carts?.items.map((item) => {
+          const isSelected = selectedProducts.some(
+            (product) => product.productId === item.product._id
+          );
+          return (
+            <Card
+              key={item.product._id}
+              className={`relative max-w-[300px] w-full h-full rounded-md overflow-hidden ${
+                isSelected ? "bg-blue-500" : ""
+              }`}
             >
+              <div className="flex items-center justify-between p-2 absolute top-0 left-0 z-50">
+                <Checkbox
+                  checked={isSelected}
+                  onCheckedChange={() =>
+                    handleCheckboxChange(item.product._id, item.quantity || 1)
+                  }
+                />
+              </div>
               <figure className="relative w-full">
                 <img
                   src={item.product.image[0]}
@@ -70,34 +93,52 @@ const CartsView = () => {
                   className="aspect-square w-full object-cover object-center"
                 />
               </figure>
-            </Link>
-            <CardContent className="pt-2 space-y-4">
-              <h2 className="text-base font-medium">{item.product.name}</h2>
-              <FormAddToCart
-                productId={item.product._id}
-                productStock={item.product.stock}
-              />
-            </CardContent>
-            <CardFooter className="flex flex-col items-center justify-between gap-2">
-              <h1 className="text-sm sm:text-base font-semibold text-nowrap line-clamp-1">
-                <span>Total Price : </span>
-                <span className="text-muted-foreground">
-                  {formatCurrency(item.totalPrice)}
-                </span>
-              </h1>
-              <ActionDeleteCartItem productId={item.product._id} />
-            </CardFooter>
-          </Card>
-        ))}
+              <CardContent className="pt-2 space-y-4">
+                <h2 className="text-base font-medium">{item.product.name}</h2>
+                <FormAddToCart
+                  productId={item.product._id}
+                  productStock={item.product.stock}
+                />
+              </CardContent>
+              <CardFooter className="flex flex-col items-center justify-between gap-2">
+                <h1 className="text-sm sm:text-base font-semibold text-nowrap line-clamp-1">
+                  <span>Total Price: </span>
+                  <span className="text-muted-foreground">
+                    {formatCurrency(item.totalPrice)}
+                  </span>
+                </h1>
+                <ActionDeleteCartItem productId={item.product._id} />
+              </CardFooter>
+            </Card>
+          );
+        })}
       </main>
       <div className="fixed bottom-0 left-0 right-0 z-[999] w-full bg-secondary p-4 shadow-xl border-t-2 border-primary flex items-end justify-between gap-6">
         <ActionDeleteAllCartItem />
         <div className="w-fit flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4">
           <h1 className="text-base font-semibold text-start w-fit">
-            <span>Total Checkout Price : </span>
-            <span>{formatCurrency(carts?.totalAmount || 0)}</span>
+            <span>Total Checkout Price: </span>
+            <span>
+              {formatCurrency(
+                carts.items
+                  .filter((item) =>
+                    selectedProducts.some(
+                      (product) => product.productId === item.product._id
+                    )
+                  )
+                  .reduce(
+                    (sum, item) =>
+                      sum +
+                      item.totalPrice *
+                        selectedProducts.find(
+                          (product) => product.productId === item.product._id
+                        )!.quantity,
+                    0
+                  )
+              )}
+            </span>
           </h1>
-          <Button>Checkout</Button>
+          <Button onClick={() => navigate("/checkout")}>Checkout</Button>
         </div>
       </div>
     </Container>
