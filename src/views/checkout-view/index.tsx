@@ -15,7 +15,7 @@ import { formatCurrency } from "@/lib/format-currency";
 import { RootState } from "@/store/store";
 import { MapPinIcon } from "lucide-react";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { axiosWithConfig } from "@/services/api/axios-with-config";
 import { toast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
@@ -32,7 +32,8 @@ export {};
 const insertSnapScript = () => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
-    script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const snapScript = import.meta.env.VITE_MIDTRANS_SNAP_SCRIPT;
+    script.src = snapScript;
     script.setAttribute(
       "data-client-key",
       import.meta.env.VITE_MIDTRANS_CLIENT_KEY
@@ -43,7 +44,6 @@ const insertSnapScript = () => {
 };
 
 const CheckoutView = () => {
-  const [token, setToken] = useState<string | null>();
   const { data: address } = useAddress();
   const { data: user } = useCurrentUser();
   const { data: carts } = useCarts();
@@ -77,13 +77,8 @@ const CheckoutView = () => {
 
   const handleCheckout = async () => {
     try {
-      if (!user || !defaultAddress) {
-        alert("Please complete your user and address information.");
-        return;
-      }
-
       const orderData = {
-        userId: user._id,
+        userId: user?._id,
         items:
           selectedItems?.map((item) => ({
             productId: item.product._id,
@@ -92,59 +87,52 @@ const CheckoutView = () => {
             name: item.product.name,
           })) || [],
         customerDetails: {
-          username: user.username,
-          email: user.email,
-          phone: user.phone,
+          username: user?.username,
+          email: user?.email,
+          phone: user?.phone,
           shippingAddress: {
-            address: defaultAddress.detail,
-            city: defaultAddress.city,
-            postalCode: defaultAddress.postalCode,
+            address: defaultAddress?.detail,
+            city: defaultAddress?.city,
+            postalCode: defaultAddress?.postalCode,
           },
         },
       };
 
       // Log the order object to check if token is available
       const response = await axiosWithConfig.post("/order", orderData);
-      setToken(response.data.token);
+      const { token } = response.data;
+      const snapToken = await token;
+      if (window.snap) {
+        window.snap.pay(snapToken, {
+          onSuccess: function () {},
+          onPending: function () {},
+          onError: function () {},
+        });
+      } else {
+        console.error("Snap.js is not loaded yet");
+        console.log("Snap.js is not loaded yet");
+        toast({
+          title: "Error",
+          description:
+            "Terjadi kesalahan saat membuat pesanan ini toast dari jika window.snap tidak ada",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       if (error instanceof AxiosError && error?.response) {
         toast({
           title: "Error",
-          description: "Terjadi kesalahan saat membuat pesanan",
+          description: "Terjadi kesalahan saat membuat pesanan 1",
           variant: "destructive",
         });
       } else {
+        console.error(error);
         toast({
           title: "Error",
-          description: "Terjadi kesalahan saat membuat pesanan",
+          description: "Terjadi kesalahan saat membuat pesanan 2",
           variant: "destructive",
         });
       }
-    } finally {
-      console.log(token);
-      window.snap.pay(token, {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onSuccess: function (result: any) {
-          const resultJsonElement = document.getElementById("result-json");
-          if (resultJsonElement) {
-            resultJsonElement.innerHTML += JSON.stringify(result, null, 2);
-          }
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onPending: function (result: any) {
-          const resultJsonElement = document.getElementById("result-json");
-          if (resultJsonElement) {
-            resultJsonElement.innerHTML += JSON.stringify(result, null, 2);
-          }
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onError: function (result: any) {
-          const resultJsonElement = document.getElementById("result-json");
-          if (resultJsonElement) {
-            resultJsonElement.innerHTML += JSON.stringify(result, null, 2);
-          }
-        },
-      });
     }
   };
 
