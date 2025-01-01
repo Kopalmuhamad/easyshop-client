@@ -119,10 +119,7 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
         headers: {
           Accept: "application/json",
           Authorization:
-            "Basic " +
-            Buffer.from(`${import.meta.env.VITE_MIDTRANS_SERVER_KEY}`).toString(
-              "base64"
-            ),
+            "Basic " + btoa(`${import.meta.env.VITE_MIDTRANS_SERVER_KEY}`),
         },
       });
       const { token } = response.data;
