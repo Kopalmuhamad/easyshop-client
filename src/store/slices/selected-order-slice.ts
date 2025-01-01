@@ -3,6 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface SelectedProduct {
   productId: string;
   quantity: number;
+  price: number;
+  name: string;
 }
 
 interface CheckoutState {
@@ -19,9 +21,14 @@ const checkoutSlice = createSlice({
   reducers: {
     toggleProductSelection(
       state,
-      action: PayloadAction<{ productId: string; quantity?: number }>
+      action: PayloadAction<{
+        productId: string;
+        quantity?: number;
+        price: number;
+        name: string;
+      }>
     ) {
-      const { productId, quantity = 1 } = action.payload;
+      const { productId, quantity = 1, price, name } = action.payload;
       const existingProduct = state.selectedProducts.find(
         (product) => product.productId === productId
       );
@@ -31,7 +38,7 @@ const checkoutSlice = createSlice({
           (product) => product.productId !== productId
         );
       } else {
-        state.selectedProducts.push({ productId, quantity });
+        state.selectedProducts.push({ productId, quantity, price, name });
       }
     },
     clearSelection(state) {

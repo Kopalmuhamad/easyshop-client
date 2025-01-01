@@ -8,45 +8,18 @@ import {
 } from "@/components/atoms/card";
 
 import Container from "@/components/shared/container";
+import Loader from "@/components/shared/loader";
 import { useAddress } from "@/features/address/hooks/use-address";
 import { useCurrentUser } from "@/features/auth/hooks/use-current-user";
-import { useCarts } from "@/features/cart/hooks/use-carts";
+import CreateOrderForm from "@/features/order/components/create-order-form";
 import { formatCurrency } from "@/lib/format-currency";
 import { RootState } from "@/store/store";
 import { MapPinIcon } from "lucide-react";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { axiosWithConfig } from "@/services/api/axios-with-config";
-import { toast } from "@/hooks/use-toast";
-import { AxiosError } from "axios";
-
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    snap: any; // Declare snap object
-  }
-}
-
-export {};
-
-const insertSnapScript = () => {
-  return new Promise((resolve) => {
-    const script = document.createElement("script");
-    const snapScript = import.meta.env.VITE_MIDTRANS_SNAP_SCRIPT;
-    script.src = snapScript;
-    script.setAttribute(
-      "data-client-key",
-      import.meta.env.VITE_MIDTRANS_CLIENT_KEY
-    );
-    script.onload = resolve;
-    document.body.appendChild(script);
-  });
-};
 
 const CheckoutView = () => {
   const { data: address } = useAddress();
   const { data: user } = useCurrentUser();
-  const { data: carts } = useCarts();
 
   const selectedProducts = useSelector(
     (state: RootState) => state.checkout.selectedProducts
@@ -56,88 +29,24 @@ const CheckoutView = () => {
     (address) => address.defaultAddress === true
   );
 
-  // Filter carts based on selected products
-  const selectedItems = carts?.items.filter((item) =>
-    selectedProducts.some((product) => product.productId === item.product._id)
-  );
-
-  const totalCheckoutPrice = selectedItems?.reduce(
-    (total, item) =>
-      total +
-      item.totalPrice *
-        selectedProducts.find(
-          (product) => product.productId === item.product._id
-        )!.quantity,
+  const totalCheckoutPrice = selectedProducts?.reduce(
+    (total, product) => total + product.price * product.quantity,
     0
   );
 
-  useEffect(() => {
-    insertSnapScript();
-  }, []);
-
-  const handleCheckout = async () => {
-    try {
-      const orderData = {
-        userId: user?._id,
-        items:
-          selectedItems?.map((item) => ({
-            productId: item.product._id,
-            quantity: item.quantity,
-            price: item.product.price,
-            name: item.product.name,
-          })) || [],
-        customerDetails: {
-          username: user?.username,
-          email: user?.email,
-          phone: user?.phone,
-          shippingAddress: {
-            address: defaultAddress?.detail,
-            city: defaultAddress?.city,
-            postalCode: defaultAddress?.postalCode,
-          },
-        },
-      };
-
-      // Log the order object to check if token is available
-      const response = await axiosWithConfig.post("/order", orderData);
-      const { token } = response.data;
-      const snapToken = await token;
-      if (window.snap) {
-        window.snap.pay(snapToken, {
-          onSuccess: function () {},
-          onPending: function () {},
-          onError: function () {},
-        });
-      } else {
-        console.error("Snap.js is not loaded yet");
-        console.log("Snap.js is not loaded yet");
-        toast({
-          title: "Error",
-          description:
-            "Terjadi kesalahan saat membuat pesanan ini toast dari jika window.snap tidak ada",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      if (error instanceof AxiosError && error?.response) {
-        toast({
-          title: "Error",
-          description: "Terjadi kesalahan saat membuat pesanan 1",
-          variant: "destructive",
-        });
-      } else {
-        console.error(error);
-        toast({
-          title: "Error",
-          description: "Terjadi kesalahan saat membuat pesanan 2",
-          variant: "destructive",
-        });
-      }
-    }
-  };
+  if (!user || !defaultAddress || !selectedProducts.length) {
+    return (
+      <div className="relative w-screen h-screen">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Loader size="lg" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Container className="pt-20 pb-10 grid grid-flow-row md:grid-cols-2 gap-3">
+      {/* Address Information */}
       <Card>
         <CardHeader>
           <CardTitle className="text-xs flex items-center justify-start gap-1">
@@ -161,28 +70,22 @@ const CheckoutView = () => {
         </CardFooter>
       </Card>
 
+      {/* Order Form */}
       <Card>
         <CardHeader>
           <CardTitle>Ringkasan Pesanan</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          {selectedItems?.map((item) => (
-            <div key={item.product._id} className="flex justify-between">
+          {selectedProducts?.map((product) => (
+            <div key={product.productId} className="flex justify-between">
               <div>
                 <span className="text-base font-semibold">
-                  {item.quantity} x{" "}
+                  {product.quantity} x{" "}
                 </span>
-                <span className="text-base font-semibold">
-                  {item.product.name}
-                </span>
+                <span className="text-base font-semibold">{product.name}</span>
               </div>
               <span className="text-base font-semibold text-muted-foreground">
-                {formatCurrency(
-                  item.totalPrice *
-                    selectedProducts.find(
-                      (product) => product.productId === item.product._id
-                    )!.quantity
-                )}
+                {formatCurrency(product.price * product.quantity)}
               </span>
             </div>
           ))}
@@ -194,11 +97,15 @@ const CheckoutView = () => {
               {formatCurrency(totalCheckoutPrice || 0)}
             </span>
           </div>
-          <Button className="ml-auto" onClick={handleCheckout}>
-            Checkout
-          </Button>
+
+          {/* Add CreateOrderForm component here */}
         </CardFooter>
       </Card>
+      <CreateOrderForm
+        user={user!} // Passing the current user
+        items={selectedProducts} // Passing the selected products
+        address={defaultAddress!} // Passing the default address
+      />
     </Container>
   );
 };

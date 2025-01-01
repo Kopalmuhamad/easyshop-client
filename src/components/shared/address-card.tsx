@@ -11,15 +11,17 @@ import { Button } from "../atoms/button";
 import { useSetDefaultAddress } from "@/features/address/hooks/use-set-default-address";
 import { useRemoveAddress } from "@/features/address/hooks/use-remove-address";
 import { Badge } from "../atoms/badge";
+import { cn } from "@/lib/utils";
 
 interface IAddressCardProps {
   address: IAddress;
+  className?: string;
 }
-const AddressCard = ({ address }: IAddressCardProps) => {
+const AddressCard = ({ address, className }: IAddressCardProps) => {
   const { mutate: setAsDefault } = useSetDefaultAddress();
   const { mutate: removeAddress } = useRemoveAddress();
   return (
-    <Card className="h-full">
+    <Card className={cn("h-full", className)}>
       <CardHeader>
         <CardTitle className="capitalize">{address?.detail}</CardTitle>
         <CardDescription>

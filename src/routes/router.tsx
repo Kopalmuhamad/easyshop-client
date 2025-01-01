@@ -13,13 +13,6 @@ import ProtectedRoute from "./protected-route";
 import AdminProtectedRoute from "./admin-protected-route";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import Loader from "@/components/shared/loader";
-import CartsPage from "@/pages/carts-page";
-import NewArrivalPage from "@/pages/new-arrival-page";
-import FeaturesPage from "@/pages/features-page";
-import BestSellerPage from "@/pages/best-seller-page";
-import ProductsByCategoryPage from "@/pages/products-by-category-page";
-import CategoriesPage from "@/pages/categories-page";
-import CheckoutPage from "@/pages/checkout-page";
 
 const ProfilePage = lazy(() => import("@/pages/profile-page"));
 const CreateAddressPage = lazy(() => import("@/pages/create-address-page"));
@@ -40,6 +33,15 @@ const AdminCreateCategoryPage = lazy(
 );
 const CollectionsPage = lazy(() => import("@/pages/collection-page"));
 const DetailProductPage = lazy(() => import("@/pages/detail-product-page"));
+const CartsPage = lazy(() => import("@/pages/carts-page"));
+const NewArrivalPage = lazy(() => import("@/pages/new-arrival-page"));
+const FeaturesPage = lazy(() => import("@/pages/features-page"));
+const BestSellerPage = lazy(() => import("@/pages/best-seller-page"));
+const CategoriesPage = lazy(() => import("@/pages/categories-page"));
+const ProductsByCategoryPage = lazy(
+  () => import("@/pages/products-by-category-page")
+);
+const CheckoutPage = lazy(() => import("@/pages/checkout-page"));
 
 const routes = createRoutesFromElements(
   <Route>

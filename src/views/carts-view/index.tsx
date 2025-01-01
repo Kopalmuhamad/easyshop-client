@@ -28,8 +28,13 @@ const CartsView = () => {
   );
   const { data: carts, isLoading } = useCarts();
 
-  const handleCheckboxChange = (productId: string, quantity: number = 1) => {
-    dispatch(toggleProductSelection({ productId, quantity }));
+  const handleCheckboxChange = (
+    productId: string,
+    quantity: number = 1,
+    price: number,
+    name: string
+  ) => {
+    dispatch(toggleProductSelection({ productId, quantity, price, name }));
   };
 
   if (isLoading) {
@@ -82,7 +87,12 @@ const CartsView = () => {
                 <Checkbox
                   checked={isSelected}
                   onCheckedChange={() =>
-                    handleCheckboxChange(item.product._id, item.quantity || 1)
+                    handleCheckboxChange(
+                      item.product._id,
+                      item.quantity || 1,
+                      item.product.price,
+                      item.product.name
+                    )
                   }
                 />
               </div>
