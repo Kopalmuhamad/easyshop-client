@@ -115,7 +115,16 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
 
   const onSubmit = async (data: z.infer<typeof checkoutSchema>) => {
     try {
-      const response = await axiosWithConfig.post("/order", data);
+      const response = await axiosWithConfig.post("/order", data, {
+        headers: {
+          Accept: "application/json",
+          Authorization:
+            "Basic " +
+            Buffer.from(`${import.meta.env.VITE_MIDTRANS_SERVER_KEY}`).toString(
+              "base64"
+            ),
+        },
+      });
       const { token } = response.data;
 
       // Tunggu hingga script Snap.js dimuat
