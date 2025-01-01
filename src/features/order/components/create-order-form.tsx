@@ -16,7 +16,8 @@ import { IAuth } from "@/features/auth/utils/auth-interface";
 import { IAddress } from "@/features/address/utils/interface-address";
 import { axiosWithConfig } from "@/services/api/axios-with-config";
 import { toast } from "@/hooks/use-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Loader from "@/components/shared/loader";
 
 function insertSnapScript() {
   return new Promise((resolve, reject) => {
@@ -84,6 +85,7 @@ interface IProps {
 }
 
 const CreateOrderForm = ({ user, items, address }: IProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     insertSnapScript();
   }, []);
@@ -115,6 +117,7 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
 
   const onSubmit = async (data: z.infer<typeof checkoutSchema>) => {
     try {
+      setIsLoading(true);
       const response = await axiosWithConfig.post("/order", data, {
         headers: {
           Accept: "application/json",
@@ -153,8 +156,12 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
         description: "Terjadi kesalahan saat mengirim data.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(true);
     }
   };
+
+  console.log(isLoading);
 
   return (
     <Form {...form}>
@@ -328,8 +335,8 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="ml-auto">
-          Submit
+        <Button type="submit" className="ml-auto" disabled={isLoading}>
+          {isLoading ? <Loader size={"xs"} /> : "Submit"}
         </Button>
       </form>
     </Form>
