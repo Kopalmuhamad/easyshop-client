@@ -16,14 +16,13 @@ import { IAuth } from "@/features/auth/utils/auth-interface";
 import { IAddress } from "@/features/address/utils/interface-address";
 import { axiosWithConfig } from "@/services/api/axios-with-config";
 import { toast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
-import Loader from "@/components/shared/loader";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function insertSnapScript() {
   return new Promise((resolve, reject) => {
     // Cek apakah script sudah dimuat
     if (window.snap) {
-      console.log("Snap.js sudah dimuat.");
       resolve("Snap.js sudah dimuat.");
       return;
     }
@@ -34,7 +33,6 @@ function insertSnapScript() {
 
     // Cek apakah URL dan kunci klien valid
     if (!snapScript || !midtransClientKey) {
-      console.error("Snap.js URL atau kunci klien tidak ditemukan.");
       toast({
         title: "Error",
         description: "Snap.js URL atau kunci klien tidak ditemukan.",
@@ -44,21 +42,16 @@ function insertSnapScript() {
       return;
     }
 
-    console.log("Snap.js URL:", snapScript);
-    console.log("Midtrans Client Key:", midtransClientKey);
-
     script.src = snapScript;
     script.type = "text/javascript";
     script.dataset.clientKey = midtransClientKey;
     script.setAttribute("data-client-key", midtransClientKey);
 
     script.onload = () => {
-      console.log("Snap.js berhasil dimuat.");
       resolve("Snap.js berhasil dimuat.");
     };
 
     script.onerror = () => {
-      console.error("Gagal memuat Snap.js.");
       toast({
         title: "Error",
         description: "Gagal memuat Snap.js. Periksa koneksi internet Anda.",
@@ -85,7 +78,7 @@ interface IProps {
 }
 
 const CreateOrderForm = ({ user, items, address }: IProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
   useEffect(() => {
     insertSnapScript();
   }, []);
@@ -117,7 +110,6 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
 
   const onSubmit = async (data: z.infer<typeof checkoutSchema>) => {
     try {
-      setIsLoading(true);
       const response = await axiosWithConfig.post("/order", data, {
         headers: {
           Accept: "application/json",
@@ -131,17 +123,29 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
       if (window.snap) {
         window.snap.pay(token, {
           onSuccess: function () {
-            // Handle success
+            navigate("/cart");
+            toast({
+              title: "Success",
+              description: "You have pay your order",
+            });
           },
           onPending: function () {
-            // Handle pending
+            navigate("/profile/cart");
+            toast({
+              title: "Pending",
+              description: "You have order should you pay",
+            });
           },
           onError: function () {
-            // Handle error
+            navigate("/cart");
+            toast({
+              title: "Error",
+              description: "You got error",
+              variant: "destructive",
+            });
           },
         });
       } else {
-        console.error("Snap.js is not loaded yet");
         toast({
           title: "Error",
           description:
@@ -150,18 +154,13 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
         });
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast({
         title: "Error",
-        description: "Terjadi kesalahan saat mengirim data.",
+        description: error + "Terjadi kesalahan saat mengirim data.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(true);
     }
   };
-
-  console.log(isLoading);
 
   return (
     <Form {...form}>
@@ -335,8 +334,8 @@ const CreateOrderForm = ({ user, items, address }: IProps) => {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="ml-auto" disabled={isLoading}>
-          {isLoading ? <Loader size={"xs"} /> : "Submit"}
+        <Button type="submit" className="ml-auto">
+          Submit
         </Button>
       </form>
     </Form>
