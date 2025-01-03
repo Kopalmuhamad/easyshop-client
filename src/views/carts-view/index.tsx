@@ -106,18 +106,18 @@ const CartsView = () => {
               <CardContent className="pt-2 space-y-4">
                 <h2 className="text-base font-medium">{item.product.name}</h2>
                 <FormAddToCart
-                  product_id={item.product._id}
-                  product_stock={item.product.stock}
+                  productId={item.product._id}
+                  productStock={item.product.stock}
                 />
               </CardContent>
               <CardFooter className="flex flex-col items-center justify-between gap-2">
                 <h1 className="text-sm sm:text-base font-semibold text-nowrap line-clamp-1">
                   <span>Total Price: </span>
                   <span className="text-muted-foreground">
-                    {formatCurrency(item.total_price)}
+                    {formatCurrency(item.totalPrice)}
                   </span>
                 </h1>
-                <ActionDeleteCartItem product_id={item.product._id} />
+                <ActionDeleteCartItem productId={item.product._id} />
               </CardFooter>
             </Card>
           );
@@ -139,7 +139,7 @@ const CartsView = () => {
                   .reduce(
                     (sum, item) =>
                       sum +
-                      item.total_price *
+                      item.totalPrice *
                         selectedProducts.find(
                           (product) => product.productId === item.product._id
                         )!.quantity,

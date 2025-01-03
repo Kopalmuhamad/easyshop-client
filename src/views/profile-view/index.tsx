@@ -160,21 +160,21 @@ const ProfileView = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium py-1 border-b border-border">
               <span className="text-nowrap">Sub District : </span>
               <span className="text-muted-foreground">
-                {address?.sub_district}
+                {address?.subDistrict}
               </span>
             </div>
             <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium py-1 border-b border-border">
               <span className="text-nowrap">Postal Code : </span>
               <span className="text-muted-foreground">
-                {address?.postal_code}
+                {address?.postalCode}
               </span>
             </div>
             <div className="flex flex-col md:flex-row md:items-start justify-between text-base font-medium gap-2">
               <span className="text-nowrap">Detail : </span>
               <span className="text-muted-foreground">
                 {address?.country}, {address?.province}, {address?.city},
-                {address?.district}, {address?.sub_district},{" "}
-                {address?.postal_code}, {address?.detail}
+                {address?.district}, {address?.subDistrict},{" "}
+                {address?.postalCode}, {address?.detail}
               </span>
             </div>
             <div className="mt-4">
