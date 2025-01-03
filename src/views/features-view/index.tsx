@@ -22,6 +22,7 @@ const FeaturesView = () => {
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   const { data: productsData, isLoading } = useProducts({
+    featured: true,
     page: currentPage,
   });
 

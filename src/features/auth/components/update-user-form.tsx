@@ -16,6 +16,13 @@ import { Input } from "@/components/atoms/input";
 import { DialogClose } from "@/components/atoms/dialog";
 import { Button } from "@/components/atoms/button";
 import Loader from "@/components/shared/loader";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/atoms/select";
 
 const UpdateUserForm = () => {
   const { data: currentUser } = useCurrentUser();
@@ -25,6 +32,12 @@ const UpdateUserForm = () => {
   const form = useForm<z.infer<typeof updateUserSchema>>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
+      firstName: currentUser?.firstName || "",
+      lastName: currentUser?.lastName || "",
+      gender:
+        currentUser?.gender === "male" || currentUser?.gender === "female"
+          ? currentUser.gender
+          : undefined,
       username: currentUser?.username || "",
       email: currentUser?.email || "",
       phone: currentUser?.phone || "",
@@ -35,6 +48,9 @@ const UpdateUserForm = () => {
   const onSubmit = async (data: z.infer<typeof updateUserSchema>) => {
     const formData = new FormData();
 
+    if (data.firstName) formData.append("firstName", data.firstName);
+    if (data.lastName) formData.append("lastName", data.lastName);
+    if (data.gender) formData.append("gender", data.gender);
     if (data.username) formData.append("username", data.username);
     if (data.email) formData.append("email", data.email);
     if (data.phone) formData.append("phone", data.phone);
@@ -49,6 +65,32 @@ const UpdateUserForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          name="firstName"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Fisrtname</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter your firstname" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="lastName"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Lastname</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter your lastname" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           name="username"
           control={form.control}
@@ -85,6 +127,33 @@ const UpdateUserForm = () => {
               <FormLabel>Phone</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter your phone number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="gender"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Gender</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>

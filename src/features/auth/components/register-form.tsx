@@ -14,11 +14,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/atoms/input";
 import { Button } from "@/components/atoms/button";
 import Loader from "@/components/shared/loader";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/atoms/select";
 
 const RegisterForm = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      firstName: "",
+      lastName: "",
+      gender: undefined,
       username: "",
       phone: "",
       email: "",
@@ -38,6 +48,40 @@ const RegisterForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
+          name="firstName"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Firstname</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter your first name"
+                  type="text"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="lastName"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Lastname</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter your last name"
+                  type="text"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
           name="username"
           control={form.control}
           render={({ field }) => (
@@ -49,6 +93,32 @@ const RegisterForm = () => {
                   placeholder="Enter your username"
                   type="text"
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="gender"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Gender</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>

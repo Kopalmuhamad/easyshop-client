@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IProductResponse } from "../utils/product-interface";
 
 interface IProps {
-  [key: string]: string | number;
+  [key: string]: string | number | boolean;
 }
 
 export const useProducts = (params?: IProps) => {

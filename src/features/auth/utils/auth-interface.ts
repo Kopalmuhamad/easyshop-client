@@ -6,6 +6,9 @@ export interface IAuth {
   phone: string;
   image: string;
   role: string;
+  gender: string;
+  firstName: string;
+  lastName: string;
   isVerified: boolean;
   refreshToken: string;
   emailVerifiedAt: Date;

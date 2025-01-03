@@ -7,6 +7,13 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
+    firstName: z
+      .string()
+      .min(3, { message: "First name must be at least 3 characters" }),
+    lastName: z
+      .string()
+      .min(3, { message: "Last name must be at least 3 characters" }),
+    gender: z.enum(["male", "female"]),
     username: z
       .string()
       .min(3, { message: "Username must be at least 3 characters" }),

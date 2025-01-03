@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 const ProfileView = () => {
   const { data: currentUser } = useCurrentUser();
   const { data: address } = useDefaultAddress();
+  console.log(address);
 
   function LocationMarker() {
     const [position, setPosition] = useState<LatLngLiteral | null>(
@@ -83,19 +84,41 @@ const ProfileView = () => {
           </figure>
         </CardHeader>
         <CardContent className="space-y-2">
-          <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium">
+          <div className="flex items-center justify-start gap-2 p-2 bg-secondary rounded-md">
+            <div className="flex flex-col md:flex-row md:items-center justify-between text-sm md:text-base font-medium gap-1">
+              <span className="text-nowrap">Firstname : </span>
+              <span className="text-muted-foreground capitalize">
+                {currentUser?.firstName}
+              </span>
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center justify-between text-sm md:text-base font-medium gap-1">
+              <span className="text-nowrap">Lastname : </span>
+              <span className="text-muted-foreground capitalize">
+                {currentUser?.lastName}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between text-sm md:text-base font-medium p-2 bg-secondary rounded-md">
             <span className="text-nowrap">Username : </span>
             <span className="text-muted-foreground">
               {currentUser?.username}
             </span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium">
+          <div className="flex flex-col md:flex-row md:items-center justify-between text-sm md:text-base font-medium p-2 bg-secondary rounded-md">
             <span className="text-nowrap">Email : </span>
             <span className="text-muted-foreground">{currentUser?.email}</span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium">
+          <div className="flex flex-col md:flex-row md:items-center justify-between text-sm md:text-base font-medium p-2 bg-secondary rounded-md">
             <span className="text-nowrap">Phone No : </span>
-            <span className="text-muted-foreground">{currentUser?.phone}</span>
+            <span className="text-muted-foreground capitalize">
+              {currentUser?.phone}
+            </span>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between text-sm md:text-base font-medium p-2 bg-secondary rounded-md">
+            <span className="text-nowrap">Gender : </span>
+            <span className="text-muted-foreground capitalize">
+              {currentUser?.gender}
+            </span>
           </div>
         </CardContent>
         <CardFooter className="flex items-center justify-start flex-wrap gap-2">
@@ -137,21 +160,21 @@ const ProfileView = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium py-1 border-b border-border">
               <span className="text-nowrap">Sub District : </span>
               <span className="text-muted-foreground">
-                {address?.subDistrict}
+                {address?.sub_district}
               </span>
             </div>
             <div className="flex flex-col md:flex-row md:items-center justify-between text-base font-medium py-1 border-b border-border">
               <span className="text-nowrap">Postal Code : </span>
               <span className="text-muted-foreground">
-                {address?.postalCode}
+                {address?.postal_code}
               </span>
             </div>
             <div className="flex flex-col md:flex-row md:items-start justify-between text-base font-medium gap-2">
               <span className="text-nowrap">Detail : </span>
               <span className="text-muted-foreground">
                 {address?.country}, {address?.province}, {address?.city},
-                {address?.district}, {address?.subDistrict},{" "}
-                {address?.postalCode}, {address?.detail}
+                {address?.district}, {address?.sub_district},{" "}
+                {address?.postal_code}, {address?.detail}
               </span>
             </div>
             <div className="mt-4">

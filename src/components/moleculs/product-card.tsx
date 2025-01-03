@@ -67,8 +67,8 @@ const ProductCard = ({ product, isAdmin = false }: IProductCardProps) => {
                   select the quantity
                 </DialogDescription>
                 <FormAddToCart
-                  productId={product?._id}
-                  productStock={product?.stock}
+                  product_id={product?._id}
+                  product_stock={product?.stock}
                 />
               </DialogHeader>
             </DialogContent>

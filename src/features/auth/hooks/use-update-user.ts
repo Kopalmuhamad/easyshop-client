@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 export const updateUserSchema = z.object({
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  gender: z.enum(["male", "female"]).optional(),
   username: z.string().optional(),
   email: z.string().email().optional(),
   phone: z.string().optional(),
