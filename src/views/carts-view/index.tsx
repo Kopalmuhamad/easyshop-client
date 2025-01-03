@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 const CartsView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
   const selectedProducts = useSelector(
     (state: RootState) => state.checkout.selectedProducts
   );
