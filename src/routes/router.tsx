@@ -41,7 +41,6 @@ const CategoriesPage = lazy(() => import("@/pages/categories-page"));
 const ProductsByCategoryPage = lazy(
   () => import("@/pages/products-by-category-page")
 );
-const CheckoutPage = lazy(() => import("@/pages/checkout-page"));
 
 const routes = createRoutesFromElements(
   <Route>
@@ -75,7 +74,6 @@ const routes = createRoutesFromElements(
         <Route path="/profile/address/create" element={<CreateAddressPage />} />
         <Route path="/profile/address" element={<AddressPage />} />
         <Route path="/profile/carts" element={<CartsPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
       </Route>
     </Route>
 
