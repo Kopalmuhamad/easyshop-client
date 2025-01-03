@@ -12,8 +12,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        // target: "https://easyshop-api.vercel.app/",
-        target: "http://localhost:3001/",
+        target: "https://easyshop-api.vercel.app/",
+        // target: "http://localhost:3001/",
         changeOrigin: true,
       },
     },
