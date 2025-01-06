@@ -4,15 +4,21 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/atoms/carousel";
-import ProductCard from "@/components/moleculs/product-card";
+import ProductCard from "@/components/organisme/products/product-card";
 import Hero from "@/components/organisme/hero";
-import CategoryCard from "@/components/shared/category-card";
+import CategoryCard from "@/components/organisme/category/category-card";
 import Container from "@/components/shared/container";
 import { useCategories } from "@/features/categories/hooks/use-categories";
 import { useProducts } from "@/features/product/hooks/use-products";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import {
+  HeaderPage,
+  HeaderPageContent,
+  HeaderPageTitle,
+} from "@/components/atoms/header-page";
+import ProductSlider from "@/components/organisme/products/product-slider";
 
 const HomeView = () => {
   const { data: categories } = useCategories();
@@ -87,28 +93,22 @@ const HomeView = () => {
       )}
 
       {/* Featured */}
-      {featuredProducts && (
+      {featuredProducts && featuredProducts.length > 0 && (
         <div className="bg-secondary">
           <Container className="py-4 space-y-4">
-            <header className="flex items-center justify-between">
-              <h1 className="text-xl font-semibold">Featured</h1>
-              <Link
-                to={"/collections/features"}
-                className={cn(buttonVariants({ variant: "link" }))}
-              >
-                View all
-              </Link>
-            </header>
+            <HeaderPage>
+              <HeaderPageContent>
+                <HeaderPageTitle>Featured</HeaderPageTitle>
+                <Link
+                  to={"/collections/features"}
+                  className={cn(buttonVariants({ variant: "link" }))}
+                >
+                  View all
+                </Link>
+              </HeaderPageContent>
+            </HeaderPage>
             {isMobile ? (
-              <Carousel>
-                <CarouselContent>
-                  {featuredProducts?.map((product) => (
-                    <CarouselItem className="basis-1/1" key={product._id}>
-                      <ProductCard key={product._id} product={product} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
+              <ProductSlider products={featuredProducts} />
             ) : (
               <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 {featuredProducts?.map((product) => (
@@ -121,27 +121,21 @@ const HomeView = () => {
       )}
 
       {/* Best Seller */}
-      {bestSellerProducts && (
+      {bestSellerProducts && bestSellerProducts.length > 0 && (
         <Container className="py-4 space-y-4">
-          <header className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold">Best Seller</h1>
-            <Link
-              to={"/collections/best-seller"}
-              className={cn(buttonVariants({ variant: "link" }))}
-            >
-              View all
-            </Link>
-          </header>
+          <HeaderPage>
+            <HeaderPageContent>
+              <HeaderPageTitle>Best Seller</HeaderPageTitle>
+              <Link
+                to={"/collections/best-seller"}
+                className={cn(buttonVariants({ variant: "link" }))}
+              >
+                View all
+              </Link>
+            </HeaderPageContent>
+          </HeaderPage>
           {isMobile ? (
-            <Carousel>
-              <CarouselContent>
-                {bestSellerProducts?.map((product) => (
-                  <CarouselItem className="basis-1/1" key={product._id}>
-                    <ProductCard key={product._id} product={product} />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+            <ProductSlider products={bestSellerProducts} />
           ) : (
             <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {bestSellerProducts?.map((product) => (

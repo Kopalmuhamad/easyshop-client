@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary py-4">
+    <footer className="bg-secondary py-4 mt-auto">
       <Container className="gap-y-6 gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <div className="space-y-2">
           <h1 className="text-xl font-bold">Join Our Newsletter</h1>

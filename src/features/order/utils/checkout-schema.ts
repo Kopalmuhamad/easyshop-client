@@ -18,7 +18,7 @@ export const checkoutSchema = z.object({
     username: z.string().min(1, "Username is required"),
     email: z.string().email("Invalid email address"),
     phone: z.string().min(1, "Phone number is required"),
-    shippingAddress: z.object({
+    shippingDetails: z.object({
       detail: z.string().min(1, "Address detail is required"),
       postalCode: z.string().min(1, "Postal code is required"),
       subDistrict: z.string().min(1, "Subdistrict is required"),
@@ -27,5 +27,9 @@ export const checkoutSchema = z.object({
       province: z.string().min(1, "Province is required"),
       country: z.string().min(1, "Country is required"),
     }),
+  }),
+  paymentDetails: z.object({
+    paymentType: z.string().min(1, "Payment type is required"),
+    bankName: z.string().min(1, "Bank number is required").optional(),
   }),
 });

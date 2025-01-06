@@ -1,26 +1,26 @@
+import { Card, CardContent } from "@/components/atoms/card";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/atoms/card";
+  HeaderPage,
+  HeaderPageContent,
+  HeaderPageDescription,
+  HeaderPageTitle,
+} from "@/components/atoms/header-page";
 import Container from "@/components/shared/container";
 import CreateAddressForm from "@/features/address/components/create-address-form";
 
 const CreateAddressView = () => {
   return (
     <Container className="pt-20 pb-10">
+      <HeaderPage>
+        <HeaderPageContent>
+          <HeaderPageTitle>Create Address</HeaderPageTitle>
+          <HeaderPageDescription>Create a new address</HeaderPageDescription>
+        </HeaderPageContent>
+      </HeaderPage>
       <Card>
-        <CardHeader>
-          <CardTitle>Create Address</CardTitle>
-          <CardDescription>Create a new address</CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="py-4">
           <CreateAddressForm />
         </CardContent>
-        <CardFooter></CardFooter>
       </Card>
     </Container>
   );

@@ -1,5 +1,5 @@
 import { ShoppingBasketIcon } from "lucide-react";
-import { Button, buttonVariants } from "../atoms/button";
+import { Button, buttonVariants } from "@/components/atoms/button";
 import {
   Dialog,
   DialogContent,
@@ -7,16 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../atoms/dialog";
-import { ScrollArea } from "../atoms/scroll-area";
-import { Card, CardContent } from "../atoms/card";
+} from "@/components/atoms/dialog";
+import { ScrollArea } from "@/components/atoms/scroll-area";
+import { Card, CardContent } from "@/components/atoms/card";
 import { useCarts } from "@/features/cart/hooks/use-carts";
 import { formatCurrency } from "@/lib/format-currency";
 import { Link } from "react-router-dom";
+import CounterCarts from "./counter-carts";
 
-const PopUpCarts = () => {
+const PopupListCart = () => {
   const { data: carts } = useCarts();
-
   return (
     <Dialog>
       <DialogTrigger
@@ -24,17 +24,28 @@ const PopUpCarts = () => {
         className="hidden md:flex md:col-start-4 md:row-start-1 mx-1 relative"
       >
         <Button variant={"outline"} size={"icon"}>
-          <div className="text-xs rounded-full bg-primary text-primary-foreground w-4 h-4 flex items-center justify-center absolute -top-1.5 -right-1.5">
-            {carts?.items?.length || 0}
-          </div>
+          <CounterCarts
+            carts={carts!}
+            className="absolute -top-1.5 -right-1.5"
+          />
           <ShoppingBasketIcon size={18} />
         </Button>
       </DialogTrigger>
       <DialogContent className="px-2">
-        {!carts ? (
-          <h1 className="text-base text-center font-semibold">
-            You have no items in your cart
-          </h1>
+        {!carts || !carts.items.length ? (
+          <div className="flex items-center justify-center">
+            <Card>
+              <CardContent className="py-4 flex items-center justify-center flex-col gap-2">
+                <h1 className="text-xl font-bold">Your cart is empty</h1>
+                <p className="text-muted-foreground text-sm">
+                  Add some products to your cart.
+                </p>
+                <Link className={buttonVariants()} to={"/collections"}>
+                  See our collections
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         ) : (
           <>
             <DialogHeader>
@@ -49,16 +60,16 @@ const PopUpCarts = () => {
               {carts?.items?.map((item) => (
                 <Card
                   key={item._id}
-                  className="grid grid-cols-[0.5fr_1fr] gap-2 h-full max-h-[125px] overflow-hidden mb-2"
+                  className="grid grid-cols-[0.5fr_1fr] xs:grid-cols-[0.35fr_1fr] gap-2 mb-2"
                 >
-                  <figure className="flex items-center justify-center py-1">
+                  <figure className="flex items-center justify-center w-full h-[125px] py-1">
                     <img
                       src={item.product.image[0]}
                       alt={item.product.name}
-                      className="object-cover rounded-sm ml-2"
+                      className="w-full h-full object-cover object-center rounded-sm ml-2"
                     />
                   </figure>
-                  <CardContent className="p-2 flex flex-col items-start justify-start">
+                  <CardContent className="p-2 flex flex-col items-start justify-center">
                     <h1 className="text-start text-sm sm:text-base font-semibold">
                       {item.product.name}
                     </h1>
@@ -90,4 +101,4 @@ const PopUpCarts = () => {
   );
 };
 
-export default PopUpCarts;
+export default PopupListCart;

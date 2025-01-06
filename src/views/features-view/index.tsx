@@ -4,18 +4,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/atoms/carousel";
-import ProductCard from "@/components/moleculs/product-card";
+import ProductCard from "@/components/organisme/products/product-card";
 import Container from "@/components/shared/container";
 import Loader from "@/components/shared/loader";
-import PaginationProduct from "@/components/shared/pagination-product";
+import PaginationProduct from "@/components/organisme/products/pagination-product";
 import { useProducts } from "@/features/product/hooks/use-products";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSearchParams } from "react-router-dom";
+import {
+  HeaderPage,
+  HeaderPageContent,
+  HeaderPageTitle,
+} from "@/components/atoms/header-page";
+import ProductSlider from "@/components/organisme/products/product-slider";
 
 const FeaturesView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -68,19 +69,13 @@ const FeaturesView = () => {
 
   return (
     <Container className="pt-20 pb-10 space-y-4">
-      <header className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Featured</h1>
-      </header>
+      <HeaderPage>
+        <HeaderPageContent>
+          <HeaderPageTitle>Featured</HeaderPageTitle>
+        </HeaderPageContent>
+      </HeaderPage>
       {isMobile ? (
-        <Carousel>
-          <CarouselContent>
-            {featuresProducts?.map((product) => (
-              <CarouselItem className="basis-1/1" key={product._id}>
-                <ProductCard product={product} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        <ProductSlider products={featuresProducts} />
       ) : (
         <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {featuresProducts?.map((product) => (

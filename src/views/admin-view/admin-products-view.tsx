@@ -10,7 +10,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/atoms/carousel";
-import ProductCard from "@/components/moleculs/product-card";
+import ProductCard from "@/components/organisme/products/product-card";
 import Loader from "@/components/shared/loader";
 import { useProducts } from "@/features/product/hooks/use-products";
 import { useIsMobile } from "@/hooks/use-mobile";

@@ -14,7 +14,6 @@ import AdminProtectedRoute from "./admin-protected-route";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import Loader from "@/components/shared/loader";
 
-const CheckoutPage = lazy(() => import("@/pages/checkout-page"));
 const ProfilePage = lazy(() => import("@/pages/profile-page"));
 const CreateAddressPage = lazy(() => import("@/pages/create-address-page"));
 const AddressPage = lazy(() => import("@/pages/address-page"));
@@ -42,6 +41,7 @@ const CategoriesPage = lazy(() => import("@/pages/categories-page"));
 const ProductsByCategoryPage = lazy(
   () => import("@/pages/products-by-category-page")
 );
+const OrderPage = lazy(() => import("@/pages/order-page"));
 
 const routes = createRoutesFromElements(
   <Route>
@@ -75,7 +75,7 @@ const routes = createRoutesFromElements(
         <Route path="/profile/address/create" element={<CreateAddressPage />} />
         <Route path="/profile/address" element={<AddressPage />} />
         <Route path="/profile/carts" element={<CartsPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/profile/orders" element={<OrderPage />} />
       </Route>
     </Route>
 

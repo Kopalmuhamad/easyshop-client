@@ -6,8 +6,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/atoms/dialog";
-import UpdateUserForm from "../../features/auth/components/update-user-form";
-import { ScrollArea } from "../atoms/scroll-area";
+import UpdateUserForm from "@/features/auth/components/update-user-form";
+import { ScrollArea } from "@/components/atoms/scroll-area";
 
 const PopUpUpdateUser = () => {
   return (

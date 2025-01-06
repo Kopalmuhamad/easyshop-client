@@ -9,13 +9,14 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/atoms/carousel";
-import ProductCard from "@/components/moleculs/product-card";
+import ProductCard from "@/components/organisme/products/product-card";
 import Container from "@/components/shared/container";
 import Loader from "@/components/shared/loader";
-import PaginationProdcuct from "@/components/shared/pagination-product";
+import PaginationProdcuct from "@/components/organisme/products/pagination-product";
 import { useProducts } from "@/features/product/hooks/use-products";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSearchParams } from "react-router-dom";
+import { HeaderPage, HeaderPageContent, HeaderPageTitle } from "@/components/atoms/header-page";
 
 const CollectionsView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,7 +45,7 @@ const CollectionsView = () => {
     );
   }
 
-  if (!products && !pagination) {
+  if (!products || products.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Card>
@@ -61,9 +62,13 @@ const CollectionsView = () => {
 
   return (
     <Container className="pt-20 pb-10 space-y-4">
-      <header className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Collections</h1>
-      </header>
+      <HeaderPage>
+        <HeaderPageContent>
+          <HeaderPageTitle>
+            Collections
+          </HeaderPageTitle>
+        </HeaderPageContent>
+      </HeaderPage>
       {isMobile ? (
         <Carousel>
           <CarouselContent>

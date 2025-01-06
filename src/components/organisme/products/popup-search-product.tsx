@@ -1,5 +1,4 @@
 import { SearchIcon } from "lucide-react";
-import { Button } from "../atoms/button";
 import {
   Dialog,
   DialogContent,
@@ -7,10 +6,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../atoms/dialog";
+} from "@/components/atoms/dialog";
+import { Button } from "@/components/atoms/button";
 import ProductSearchInput from "./product-search-input";
 
-const PopUpSearchProduct = () => {
+const PopupSearchProduct = () => {
   return (
     <Dialog>
       <DialogTrigger className="col-start-2 row-start-1 md:col-start-3 justify-self-center mx-1">
@@ -29,4 +29,4 @@ const PopUpSearchProduct = () => {
   );
 };
 
-export default PopUpSearchProduct;
+export default PopupSearchProduct;

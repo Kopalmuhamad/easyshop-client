@@ -13,13 +13,21 @@ import { MinusIcon, PlusIcon } from "lucide-react";
 import { Input } from "@/components/atoms/input";
 import Loader from "@/components/shared/loader";
 import { useCarts } from "../hooks/use-carts";
+import { cn } from "@/lib/utils";
 
 interface IPopUpAddToCartProps {
   productId: string;
   productStock: number;
+  children: React.ReactNode | string;
+  className?: string;
 }
 
-const FormAddToCart = ({ productId, productStock }: IPopUpAddToCartProps) => {
+const FormAddToCart = ({
+  productId,
+  productStock,
+  children: content,
+  className,
+}: IPopUpAddToCartProps) => {
   const { data: carts } = useCarts();
   const { mutate: create, status } = useCreateCart();
   const isLoading = status === "pending";
@@ -59,17 +67,16 @@ const FormAddToCart = ({ productId, productStock }: IPopUpAddToCartProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-row items-center justify-start gap-2"
+        className={cn("w-full flex flex-col gap-2", className)}
       >
-        <div className="flex items-center justify-center gap-x-2">
+        <div className="flex gap-x-2 w-fit">
           <Button
             type="button"
             variant={"outline"}
-            size={"icon"}
             onClick={minusQuantity}
-            className="aspect-square"
+            className="w-6 h-6 xs:w-8 xs:h-8 aspect-square"
           >
-            <MinusIcon />
+            <MinusIcon size={8} />
           </Button>
           <FormField
             name="quantity"
@@ -93,7 +100,7 @@ const FormAddToCart = ({ productId, productStock }: IPopUpAddToCartProps) => {
                       input.value = newValue;
                       field.onChange(newValue);
                     }}
-                    className="w-full text-center aspect-square p-0"
+                    className="text-center text-xs aspect-square p-0 w-6 h-6 xs:w-8 xs:h-8"
                   />
                 </FormControl>
               </FormItem>
@@ -102,19 +109,20 @@ const FormAddToCart = ({ productId, productStock }: IPopUpAddToCartProps) => {
           <Button
             type="button"
             variant={"outline"}
-            size={"icon"}
             onClick={plusQuantity}
             disabled={quantity === productStock}
-            className="aspect-square"
+            className="w-6 h-6 xs:w-8 xs:h-8 aspect-square"
           >
-            <PlusIcon />
+            <PlusIcon size={4} />
           </Button>
         </div>
-        <div>
-          <Button className="w-fit" type="submit" disabled={isLoading}>
-            {isLoading ? <Loader size="xs" /> : "Save"}
-          </Button>
-        </div>
+        <Button
+          className="w-fit text-xs xs:text-sm px-2 h-8 xs:h-9"
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? <Loader size="xs" /> : content}
+        </Button>
       </form>
     </Form>
   );

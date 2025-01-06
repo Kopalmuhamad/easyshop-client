@@ -37,10 +37,6 @@ const links = [
     name: "Collections",
     path: "/collections",
   },
-  {
-    name: "Cart",
-    path: "/profile/carts",
-  },
 ];
 
 const MobileNavigation = ({ className }: IMobileNavigationProps) => {

@@ -21,7 +21,10 @@ const Hero = () => {
           perferendis reiciendis deleniti cumque ad nihil iste laboriosam sint
           quos nostrum.
         </p>
-        <Link to="/collections" className={buttonVariants({})}>
+        <Link
+          to="/collections"
+          className={buttonVariants({ variant: "secondary" })}
+        >
           Shop Now <ArrowRightIcon />
         </Link>
       </div>

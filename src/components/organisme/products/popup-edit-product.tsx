@@ -5,17 +5,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../atoms/dialog";
+} from "@/components/atoms/dialog";
 import { PencilIcon } from "lucide-react";
-import { Button } from "../atoms/button";
+import { Button } from "@/components/atoms/button";
 import { IProduct } from "@/features/product/utils/product-interface";
-import { ScrollArea } from "../atoms/scroll-area";
+import { ScrollArea } from "@/components/atoms/scroll-area";
 
-interface IPopUpEditProductProps {
+interface IPopupEditProductProps {
   product: IProduct;
 }
 
-const PopUpEditProduct = ({ product }: IPopUpEditProductProps) => {
+const PopupEditProduct = ({ product }: IPopupEditProductProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -36,4 +36,4 @@ const PopUpEditProduct = ({ product }: IPopUpEditProductProps) => {
   );
 };
 
-export default PopUpEditProduct;
+export default PopupEditProduct;

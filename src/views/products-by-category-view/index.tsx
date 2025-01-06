@@ -9,10 +9,10 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/atoms/carousel";
-import ProductCard from "@/components/moleculs/product-card";
+import ProductCard from "@/components/organisme/products/product-card";
 import Container from "@/components/shared/container";
 import Loader from "@/components/shared/loader";
-import PaginationProduct from "@/components/shared/pagination-product";
+import PaginationProduct from "@/components/organisme/products/pagination-product";
 import { useProducts } from "@/features/product/hooks/use-products";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useParams, useSearchParams } from "react-router-dom";

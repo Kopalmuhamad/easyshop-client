@@ -6,8 +6,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../atoms/command";
-import { Card } from "../atoms/card";
+} from "@/components/atoms/command";
+import { Card } from "@/components/atoms/card";
 import { formatCurrency } from "@/lib/format-currency";
 import { Link } from "react-router-dom";
 

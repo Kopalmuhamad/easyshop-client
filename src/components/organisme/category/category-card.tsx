@@ -1,5 +1,5 @@
 import ActionDeleteCategory from "@/features/categories/components/action-delete-category";
-import { Card, CardContent, CardFooter } from "../atoms/card";
+import { Card, CardContent, CardFooter } from "@/components/atoms/card";
 import { ICategory } from "@/features/categories/utils/category-interface";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,7 @@ interface ICategoryCardProps {
   category: ICategory;
   hideFooter?: boolean;
 }
+
 
 const CategoryCard = ({ category, hideFooter = true }: ICategoryCardProps) => {
   return (

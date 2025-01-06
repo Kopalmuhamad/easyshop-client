@@ -3,14 +3,14 @@ import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
 
 const loaderVariant = cva(
-  "border-8 border-dashed rounded-full animate-spin border-blue-600",
+  " border-dashed rounded-full animate-spin border-blue-600",
   {
     variants: {
       size: {
-        xs: "w-6 h-6",
-        sm: "w-10 h-10",
-        md: "w-16 h-16",
-        lg: "w-20 h-20",
+        xs: "border-4 w-6 h-6",
+        sm: "border-5 w-10 h-10",
+        md: "border-7 w-16 h-16",
+        lg: "border-8 w-20 h-20",
       },
     },
     defaultVariants: {

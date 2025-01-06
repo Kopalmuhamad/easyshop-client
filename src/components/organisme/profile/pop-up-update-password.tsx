@@ -1,12 +1,12 @@
 import UpdatePasswordForm from "@/features/auth/components/update-password-form";
-import { Button } from "../atoms/button";
+import { Button } from "@/components/atoms/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../atoms/dialog";
+} from "@/components/atoms/dialog";
 
 const PopUpUpdatePassword = () => {
   return (

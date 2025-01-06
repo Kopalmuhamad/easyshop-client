@@ -16,51 +16,12 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/atoms/button";
 import { IAddress } from "@/features/address/utils/interface-address";
 import { useCurrentUser } from "@/features/auth/hooks/use-current-user";
-
-function insertSnapScript() {
-  return new Promise((resolve, reject) => {
-    // Cek apakah script sudah dimuat
-    if (window.snap) {
-      resolve("Snap.js sudah dimuat.");
-      return;
-    }
-
-    const script = document.createElement("script");
-    const snapScript = import.meta.env.VITE_MIDTRANS_SNAP_SCRIPT;
-    const midtransClientKey = import.meta.env.VITE_MIDTRANS_CLIENT_KEY;
-
-    // Cek apakah URL dan kunci klien valid
-    if (!snapScript || !midtransClientKey) {
-      toast({
-        title: "Error",
-        description: "Snap.js URL atau kunci klien tidak ditemukan.",
-        variant: "destructive",
-      });
-      reject("Snap.js URL atau kunci klien tidak ditemukan.");
-      return;
-    }
-
-    script.src = snapScript;
-    script.type = "text/javascript";
-    script.dataset.clientKey = midtransClientKey;
-    script.setAttribute("data-client-key", midtransClientKey);
-
-    script.onload = () => {
-      resolve("Snap.js berhasil dimuat.");
-    };
-
-    script.onerror = () => {
-      toast({
-        title: "Error",
-        description: "Gagal memuat Snap.js. Periksa koneksi internet Anda.",
-        variant: "destructive",
-      });
-      reject("Gagal memuat Snap.js.");
-    };
-
-    document.body.appendChild(script);
-  });
-}
+import { useDispatch } from "react-redux";
+import {
+  setCheckoutData,
+  setCheckoutSuccess,
+} from "@/store/slices/payment-slicer";
+import { cn } from "@/lib/utils";
 
 interface Items {
   productId: string;
@@ -70,39 +31,49 @@ interface Items {
 }
 
 interface IProps {
-  address: IAddress;
+  address: IAddress | undefined;
   products: Items[];
+  paymentType: "bank_transfer" | "gopay" | "permata" | "echannel";
+  bankName?: "bca" | "bni" | "bri" | "cimb";
+  className?: string;
 }
 
-const CheckoutForm = ({ address, products }: IProps) => {
+const CheckoutForm = ({
+  className,
+  address,
+  products,
+  paymentType,
+  bankName,
+}: IProps) => {
   const [token, setToken] = useState<string>("");
+  const dispatch = useDispatch();
   const { data: user } = useCurrentUser();
   const form = useForm<z.infer<typeof checkoutSchema>>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
       products: products,
       customerDetails: {
-        firstName: user && user.firstName,
-        lastName: user && user.lastName,
-        username: user && user.username,
-        email: user && user.email,
-        phone: user && user.phone,
-        shippingAddress: {
-          detail: address.detail,
-          postalCode: address.postalCode,
-          subDistrict: address.subDistrict,
-          district: address.district,
-          city: address.city,
-          province: address.province,
-          country: address.country,
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        username: user?.username || "",
+        email: user?.email || "",
+        phone: user?.phone || "",
+        shippingDetails: {
+          detail: address?.detail,
+          postalCode: address?.postalCode,
+          subDistrict: address?.subDistrict,
+          district: address?.district,
+          city: address?.city,
+          province: address?.province,
+          country: address?.country,
         },
+      },
+      paymentDetails: {
+        paymentType: paymentType,
+        ...(paymentType === "bank_transfer" ? { bankName: bankName } : {}),
       },
     },
   });
-
-  useEffect(() => {
-    insertSnapScript();
-  }, []);
 
   const { control, handleSubmit } = form;
 
@@ -122,6 +93,8 @@ const CheckoutForm = ({ address, products }: IProps) => {
       };
       const response = await axiosWithConfig.post("/checkout", data, config);
       setToken(response.data.token);
+      dispatch(setCheckoutSuccess(true));
+      dispatch(setCheckoutData(response.data.data));
     } catch (error) {
       toast({
         title: "Error",
@@ -130,6 +103,16 @@ const CheckoutForm = ({ address, products }: IProps) => {
       });
     }
   };
+
+  useEffect(() => {
+    form.reset({
+      ...form.getValues(),
+      paymentDetails: {
+        paymentType: paymentType,
+        ...(paymentType === "bank_transfer" ? { bankName: bankName } : {}),
+      },
+    });
+  }, [paymentType, bankName]);
 
   useEffect(() => {
     if (token) {
@@ -183,7 +166,10 @@ const CheckoutForm = ({ address, products }: IProps) => {
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="md:col-span-2 flex items-center justify-end pt-32"
+        className={cn(
+          "md:col-span-2 flex flex-col items-start justify-start p-4",
+          className
+        )}
       >
         <div className="hidden">
           {/* Items */}
@@ -296,7 +282,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
             <div>
               <FormLabel>Shipping Address</FormLabel>
               <FormField
-                name="customerDetails.shippingAddress.detail"
+                name="customerDetails.shippingDetails.detail"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -308,7 +294,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
                 )}
               />
               <FormField
-                name="customerDetails.shippingAddress.postalCode"
+                name="customerDetails.shippingDetails.postalCode"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -320,7 +306,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
                 )}
               />
               <FormField
-                name="customerDetails.shippingAddress.subDistrict"
+                name="customerDetails.shippingDetails.subDistrict"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -332,7 +318,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
                 )}
               />
               <FormField
-                name="customerDetails.shippingAddress.district"
+                name="customerDetails.shippingDetails.district"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -344,7 +330,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
                 )}
               />
               <FormField
-                name="customerDetails.shippingAddress.city"
+                name="customerDetails.shippingDetails.city"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -356,7 +342,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
                 )}
               />
               <FormField
-                name="customerDetails.shippingAddress.province"
+                name="customerDetails.shippingDetails.province"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -368,7 +354,7 @@ const CheckoutForm = ({ address, products }: IProps) => {
                 )}
               />
               <FormField
-                name="customerDetails.shippingAddress.country"
+                name="customerDetails.shippingDetails.country"
                 control={control}
                 render={({ field }) => (
                   <FormItem>
@@ -382,9 +368,8 @@ const CheckoutForm = ({ address, products }: IProps) => {
             </div>
           </div>
         </div>
-
         {/* Submit Button */}
-        <Button type="submit" className="ml-auto">
+        <Button type="submit" className="mt-4">
           Submit
         </Button>
       </form>
