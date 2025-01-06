@@ -57,7 +57,12 @@ const VerifyForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button
+          variant={"outline"}
+          type="submit"
+          className="w-full"
+          disabled={isLoading}
+        >
           {isLoading ? <Loader size="xs" /> : "Verify"}
         </Button>
       </form>

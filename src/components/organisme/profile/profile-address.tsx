@@ -121,7 +121,7 @@ const ProfileAddress = ({ address }: IProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Link to={"address"} className={buttonVariants({})}>
+        <Link to={"address"} className={buttonVariants({ variant: "secondary" })}>
           Manage Address
         </Link>
       </CardFooter>

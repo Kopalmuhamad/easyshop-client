@@ -16,6 +16,7 @@ import {
 import { IAuth } from "@/features/auth/utils/auth-interface";
 import { useLogout } from "@/features/auth/hooks/use-logout";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ModeToggle } from "@/components/shared/mode-toggle";
 
 interface IProps {
   currentUser: IAuth;
@@ -69,7 +70,7 @@ const ProfileDropdown = ({ currentUser }: IProps) => {
               <span>
                 <ShoppingBasketIcon size={16} />
               </span>
-              <span>Order</span>
+              <span>Cart</span>
             </DropdownMenuItem>
           </Link>
         )}
@@ -78,6 +79,9 @@ const ProfileDropdown = ({ currentUser }: IProps) => {
             <LogOutIcon size={16} />
           </span>
           <span>Logout</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          <ModeToggle />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -192,6 +192,7 @@ const EditProductForm = ({ product }: IEditProductFormProps) => {
           className="md:w-fit md:justify-self-start"
           type="submit"
           disabled={isLoading}
+          variant={"outline"}
         >
           {isLoading ? <Loader size={"xs"} /> : "Save"}
         </Button>

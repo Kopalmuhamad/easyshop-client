@@ -70,7 +70,9 @@ const CreateCategoryForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Create</Button>
+        <Button variant={"secondary"} type="submit">
+          Create
+        </Button>
       </form>
     </Form>
   );

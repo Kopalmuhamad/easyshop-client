@@ -19,6 +19,7 @@ import { useUserOrder } from "@/features/order/hooks/use-user-order";
 import { IPaymentDetails } from "@/features/order/utils/checkout-interface";
 import { formatCurrency } from "@/lib/format-currency";
 import { format } from "date-fns";
+import { TruckIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const OrderView = () => {
@@ -41,22 +42,25 @@ const OrderView = () => {
       </div>
     );
   }
-  if (!userOrder) {
+  if (!userOrder || userOrder.length === 0) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
-        <Card>
-          <CardContent>
+      <div className="w-full h-screen flex items-center justify-center">
+        <Card className="flex items-center justify-center flex-col">
+          <CardHeader>
+            <TruckIcon size={50} />
+          </CardHeader>
+          <CardContent className="flex items-center justify-center flex-col gap-2">
             <CardTitle>You don&apos;t have any order</CardTitle>
             <CardDescription>Please order something first</CardDescription>
-            <CardFooter>
-              <Link
-                to={"/collections"}
-                className={buttonVariants({ variant: "secondary" })}
-              >
-                See our collection
-              </Link>
-            </CardFooter>
           </CardContent>
+          <CardFooter>
+            <Link
+              to={"/collections"}
+              className={buttonVariants({ variant: "secondary" })}
+            >
+              See our collection
+            </Link>
+          </CardFooter>
         </Card>
       </div>
     );

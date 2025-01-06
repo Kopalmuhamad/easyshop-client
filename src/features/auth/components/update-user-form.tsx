@@ -188,6 +188,7 @@ const UpdateUserForm = () => {
             </Button>
           </DialogClose>
           <Button
+            variant={"secondary"}
             type="submit"
             className="btn btn-primary"
             disabled={isLoading}

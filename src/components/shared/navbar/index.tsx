@@ -27,7 +27,7 @@ const Navbar = () => {
             to={"/login"}
             className={cn(
               "font-medium w-fit justify-self-end col-start-3 row-start-1 md:col-start-5 md:row-start-1",
-              buttonVariants({ variant: "default" })
+              buttonVariants({ variant: "outline" })
             )}
           >
             Login

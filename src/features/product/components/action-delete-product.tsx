@@ -33,7 +33,7 @@ const ActionDeleteProduct = ({ productId }: { productId: string }) => {
         </DialogHeader>
         <div className="flex items-center justify-between">
           <DialogClose asChild>
-            <Button>Cancel</Button>
+            <Button variant={"outline"}>Cancel</Button>
           </DialogClose>
           <Button
             variant={"destructive"}

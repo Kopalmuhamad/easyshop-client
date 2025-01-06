@@ -8,9 +8,9 @@ import {
   CardTitle,
 } from "@/components/atoms/card";
 import Container from "@/components/shared/container";
-import PopUpUpdateUser from "@/components/organisme/profile/pop-up-update-user";
+import PopupEditUser from "@/components/organisme/profile/popup-edit-user";
 import { useCurrentUser } from "@/features/auth/hooks/use-current-user";
-import PopUpUpdatePassword from "@/components/organisme/profile/pop-up-update-password";
+import PopupEditPassword from "@/components/organisme/profile/popup-edit-password";
 import { useDefaultAddress } from "@/features/address/hooks/use-default-address";
 import { Link } from "react-router-dom";
 import { IAuth } from "@/features/auth/utils/auth-interface";
@@ -34,7 +34,10 @@ const ProfileView = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Link to={"address/create"} className={buttonVariants({})}>
+            <Link
+              to={"address/create"}
+              className={buttonVariants({ variant: "outline" })}
+            >
               Add Address
             </Link>
           </CardContent>
@@ -103,12 +106,12 @@ const ProfileInfo = ({ currentUser }: { currentUser: IAuth }) => {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-start flex-wrap gap-2">
-        <PopUpUpdateUser />
-        <PopUpUpdatePassword />
+        <PopupEditUser />
+        <PopupEditPassword />
         {currentUser?.isVerified === false && (
           <Link
             to={"/verify"}
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             Verification account
           </Link>

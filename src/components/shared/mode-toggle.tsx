@@ -26,7 +26,7 @@ export function ModeToggle({ className }: IModeToggleProps) {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="z-[1000]">
+      <DropdownMenuContent align="end" className="z-[10000]">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>

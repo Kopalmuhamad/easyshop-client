@@ -40,7 +40,10 @@ const PopupListCart = () => {
                 <p className="text-muted-foreground text-sm">
                   Add some products to your cart.
                 </p>
-                <Link className={buttonVariants()} to={"/collections"}>
+                <Link
+                  className={buttonVariants({ variant: "secondary" })}
+                  to={"/collections"}
+                >
                   See our collections
                 </Link>
               </CardContent>
@@ -90,7 +93,10 @@ const PopupListCart = () => {
               ))}
             </ScrollArea>
             <footer className="ml-auto">
-              <Link to="/profile/carts" className={buttonVariants({})}>
+              <Link
+                to="/profile/carts"
+                className={buttonVariants({ variant: "secondary" })}
+              >
                 Manage Cart
               </Link>
             </footer>

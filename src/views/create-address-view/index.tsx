@@ -10,7 +10,7 @@ import CreateAddressForm from "@/features/address/components/create-address-form
 
 const CreateAddressView = () => {
   return (
-    <Container className="pt-20 pb-10">
+    <Container className="pt-20 pb-10 space-y-4">
       <HeaderPage>
         <HeaderPageContent>
           <HeaderPageTitle>Create Address</HeaderPageTitle>

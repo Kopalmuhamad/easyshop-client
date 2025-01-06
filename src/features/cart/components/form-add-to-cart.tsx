@@ -117,6 +117,7 @@ const FormAddToCart = ({
           </Button>
         </div>
         <Button
+          variant={"secondary"}
           className="w-fit text-xs xs:text-sm px-2 h-8 xs:h-9"
           type="submit"
           disabled={isLoading}

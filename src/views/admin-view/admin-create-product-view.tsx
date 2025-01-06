@@ -1,5 +1,10 @@
 import { Card, CardContent } from "@/components/atoms/card";
-import { HeaderPage, HeaderPageContent, HeaderPageDescription, HeaderPageTitle } from "@/components/atoms/header-page";
+import {
+  HeaderPage,
+  HeaderPageContent,
+  HeaderPageDescription,
+  HeaderPageTitle,
+} from "@/components/atoms/header-page";
 import CreateProductForm from "@/features/product/components/create-product-form";
 
 const AdminCreateProductView = () => {

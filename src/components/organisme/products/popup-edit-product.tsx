@@ -19,7 +19,7 @@ const PopupEditProduct = ({ product }: IPopupEditProductProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant={"secondary"}>
           <PencilIcon />
           <span>Edit</span>
         </Button>

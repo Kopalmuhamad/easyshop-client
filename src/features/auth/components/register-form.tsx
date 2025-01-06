@@ -194,7 +194,12 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-        <Button disabled={isLoading} type="submit" className="w-full">
+        <Button
+          variant={"secondary"}
+          disabled={isLoading}
+          type="submit"
+          className="w-full"
+        >
           {isLoading ? <Loader size={"xs"} /> : "Register"}
         </Button>
       </form>

@@ -8,11 +8,11 @@ import {
   DialogTrigger,
 } from "@/components/atoms/dialog";
 
-const PopUpUpdatePassword = () => {
+const PopupEditPassword = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"}>Edit Password</Button>
+        <Button variant={"secondary"}>Edit Password</Button>
       </DialogTrigger>
       <DialogContent className="z-[9999]">
         <DialogHeader>
@@ -23,5 +23,4 @@ const PopUpUpdatePassword = () => {
     </Dialog>
   );
 };
-
-export default PopUpUpdatePassword;
+export default PopupEditPassword;

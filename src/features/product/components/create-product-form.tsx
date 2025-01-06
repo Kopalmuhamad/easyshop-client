@@ -199,6 +199,7 @@ const CreateProductForm = () => {
           className="md:w-fit md:justify-self-start"
           type="submit"
           disabled={isLoading}
+          variant={"secondary"}
         >
           {isLoading ? <Loader size={"xs"} /> : "Create"}
         </Button>
