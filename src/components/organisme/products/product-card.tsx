@@ -8,15 +8,17 @@ import { Link } from "react-router-dom";
 import ModalAddCart from "../carts/modal-add-cart";
 import { cn } from "@/lib/utils";
 import ModalEditProduct from "./modal-edit-product";
+import DialogAddCart from "../carts/dialog-add-cart";
 
 interface IProps {
   isAdmin?: boolean;
   product: IProduct;
   className?: string;
+  isMobile?: boolean;
 }
 
 const ProductCard = (props: IProps) => {
-  const { isAdmin, product, className } = props;
+  const { isAdmin, product, className, isMobile = false } = props;
 
   if (isAdmin) {
     return (
@@ -82,8 +84,12 @@ const ProductCard = (props: IProps) => {
           </h1>
         </CardContent>
       </Link>
-      <CardFooter className="flex items-center justify-between gap-2">
-        <ModalAddCart productId={product._id} productStock={product.stock} />
+      <CardFooter>
+        {isMobile ? (
+          <DialogAddCart productId={product._id} productStock={product.stock} />
+        ) : (
+          <ModalAddCart productId={product._id} productStock={product.stock} />
+        )}
       </CardFooter>
     </Card>
   );

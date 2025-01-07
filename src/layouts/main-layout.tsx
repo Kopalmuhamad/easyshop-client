@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
   return (
     <>
+      <div></div>
       <Navbar />
       <main className="relative h-full min-h-[calc(100vh-64px)]">
         <Outlet />
