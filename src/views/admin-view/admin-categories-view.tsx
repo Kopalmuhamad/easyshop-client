@@ -45,7 +45,7 @@ const AdminCategoriesView = () => {
       <HeaderPage>
         <HeaderPageTitle>Categories</HeaderPageTitle>
       </HeaderPage>
-      <CategoryCardHoverEffect items={categories!} hideFooter={false} />
+      <CategoryCardHoverEffect className="md:grid-cols-3" items={categories!} hideFooter={false} />
     </div>
   );
 };

@@ -8,10 +8,10 @@ import { IProduct } from "@/features/product/utils/product-interface";
 
 const ProductSlider = ({ products }: { products: IProduct[] }) => {
   return (
-    <Carousel>
-      <CarouselContent>
+    <Carousel className="static">
+      <CarouselContent className="static">
         {products?.map((product) => (
-          <CarouselItem key={product._id} className="basis-1/1">
+          <CarouselItem key={product._id} className="basis-1/1 static">
             <ProductCard key={product._id} product={product} />
           </CarouselItem>
         ))}

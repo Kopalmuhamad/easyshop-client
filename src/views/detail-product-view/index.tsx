@@ -61,7 +61,7 @@ const DetailProductView = ({ productId }: { productId: string }) => {
 
   return (
     <>
-      <Container className="grid grid-cols-1 md:grid-cols-[auto_1fr] pt-20 pb-10 gap-4">
+      <Container className="grid grid-cols-1 sm:grid-cols-[.7fr_1fr] pt-20 pb-10 gap-4">
         {/* Detail Product Image */}
         <DetailProductImage product={product} />
 

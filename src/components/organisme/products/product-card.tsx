@@ -22,7 +22,7 @@ const ProductCard = (props: IProps) => {
     return (
       <Card
         key={product._id}
-        className="w-full max-w-[300px] md:max-w-none md:h-full rounded-md overflow-hidden"
+        className="min-w-[240px] w-full h-full rounded-md overflow-hidden"
       >
         <Link
           to={`/collections/detail/${product._id}`}

@@ -1,18 +1,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import ActionDeleteCategory from "@/features/categories/components/action-delete-category";
-import { Card, CardContent, CardFooter } from "@/components/atoms/card";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalTrigger,
-} from "@/components/atoms/animated-modal";
-import AnimateButton from "@/components/atoms/animate-button";
-import { TrashIcon } from "lucide-react";
-import { Button } from "@/components/atoms/button";
+import CategoryCard from "./category-card";
 
 interface IProps {
   items: {
@@ -72,64 +61,3 @@ const CategoryCardHoverEffect = (props: IProps) => {
 };
 
 export default CategoryCardHoverEffect;
-
-interface ICategoryCardProps {
-  categoryName: string;
-  categoryImage: string;
-  categoryId: string;
-  hideFooter?: boolean;
-  className?: string;
-}
-
-const CategoryCard = ({
-  categoryName,
-  categoryImage,
-  categoryId,
-  hideFooter = true,
-}: ICategoryCardProps) => {
-  return (
-    <Card className={cn("h-full overflow-hidden bg-secondary relative")}>
-      <Link
-        to={`/collections/category/${categoryName}`}
-        className="flex flex-col items-center justify-center"
-      >
-        <figure className="flex items-center justify-center pt-5">
-          <img src={categoryImage} alt={categoryName} className="w-12" />
-        </figure>
-        <CardContent className="flex items-center justify-center text-center">
-          <h1 className="text-sm md:text-base font-medium capitalize">
-            {categoryName}
-          </h1>
-        </CardContent>
-      </Link>
-      {!hideFooter && (
-        <CardFooter>
-          <Modal>
-            <ModalTrigger>
-              <AnimateButton
-                initialContent="Delete"
-                variant="destructive"
-                className="w-full"
-              >
-                <TrashIcon />
-              </AnimateButton>
-            </ModalTrigger>
-            <ModalBody className="flex items-center justify-center">
-              <ModalContent className="flex items-center justify-center flex-col gap-8">
-                <h1 className="text-center font-semibold">
-                  Are you sure you want to delete this category?
-                </h1>
-                <div className="w-full flex items-center justify-center gap-4">
-                  <ActionDeleteCategory categoryId={categoryId} />
-                  <Button className="w-full" variant={"outline"}>
-                    Cancel
-                  </Button>
-                </div>
-              </ModalContent>
-            </ModalBody>
-          </Modal>
-        </CardFooter>
-      )}
-    </Card>
-  );
-};

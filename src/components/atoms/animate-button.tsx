@@ -31,10 +31,10 @@ const AnimateButton = (props: IProps) => {
       variant={variant}
       {...restProps}
     >
-      <span className="group-hover/modal-btn:translate-x-60 text-center transition duration-500">
+      <span className="group-hover/modal-btn:translate-x-[500px] text-center transition duration-500">
         {initialContent}
       </span>
-      <div className="-translate-x-60 group-hover/modal-btn:-translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-white z-20">
+      <div className="-translate-x-[500px] group-hover/modal-btn:-translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-white z-20">
         {animateContent}
       </div>
     </Button>

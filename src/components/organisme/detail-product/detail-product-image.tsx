@@ -10,11 +10,11 @@ import { IProduct } from "@/features/product/utils/product-interface";
 const DetailProductImage = ({ product }: { product: IProduct }) => {
   return (
     <Carousel>
-      <CarouselContent className="ml-0">
+      <CarouselContent className="ml-0 h-full">
         {product?.image.map((image: string, index: number) => (
           <CarouselItem
             key={index}
-            className="pl-0 relative xs:w-[300px] lg:w-[400px] drop-shadow-xl rounded-md overflow-hidden full"
+            className="pl-0 relative drop-shadow-xl rounded-md overflow-hidden full"
           >
             <img
               src={image}

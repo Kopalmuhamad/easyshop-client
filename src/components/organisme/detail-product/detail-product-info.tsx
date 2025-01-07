@@ -1,22 +1,13 @@
-import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/atoms/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/atoms/dialog";
-import FormAddToCart from "@/features/cart/components/form-add-to-cart";
+
 import { IProduct } from "@/features/product/utils/product-interface";
 import { formatCurrency } from "@/lib/format-currency";
-import { CreditCardIcon, SaveIcon } from "lucide-react";
+import ModalAddCart from "../carts/modal-add-cart";
 
 const DetailProductInfo = ({ product }: { product: IProduct }) => {
   return (
@@ -28,13 +19,13 @@ const DetailProductInfo = ({ product }: { product: IProduct }) => {
         </h1>
       </CardHeader>
       <CardContent>
-        <div className="text-sm md:text-base font-medium mt-2">
+        <div className="text-sm md:text-base font-medium">
           <span>Stock : </span>
           <span className="text-muted-foreground">{product?.stock}</span>
         </div>
         <div className="text-sm md:text-base font-medium mt-1">
           <span>Category : </span>
-          <span className="text-muted-foreground">
+          <span className="text-muted-foreground capitalize">
             {product?.category.name}
           </span>
         </div>
@@ -46,31 +37,9 @@ const DetailProductInfo = ({ product }: { product: IProduct }) => {
         </div>
       </CardContent>
       <CardFooter className="space-x-2">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>Add to cart</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add to cart</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to add this product to your cart? please
-                select the quantity
-              </DialogDescription>
-              <FormAddToCart
-                productId={product?._id}
-                productStock={product?.stock}
-              >
-                <SaveIcon />
-                Add To Cart
-              </FormAddToCart>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-        <Button>
-          <CreditCardIcon />
-          <span>Buy now</span>
-        </Button>
+        <div className="w-full ">
+          <ModalAddCart productId={product._id} productStock={product.stock} />
+        </div>
       </CardFooter>
     </Card>
   );

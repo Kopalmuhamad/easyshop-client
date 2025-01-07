@@ -25,11 +25,11 @@ const EditProductForm = ({ product }: IEditProductFormProps) => {
   const form = useForm<z.infer<typeof editProductSchema>>({
     resolver: zodResolver(editProductSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: undefined,
-      stock: undefined,
-      category: "",
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+      category: product.category.name,
       image: undefined,
     },
   });

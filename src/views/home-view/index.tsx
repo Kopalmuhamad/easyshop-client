@@ -53,6 +53,7 @@ const HomeView = () => {
   return (
     <div>
       <Hero />
+
       {/* Category List */}
       {categoriesLoading ? (
         <CategorySkeleton />

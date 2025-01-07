@@ -17,15 +17,17 @@ export const editProductSchema = z.object({
     .transform((value) => (value === "" ? "" : Number(value)))
     .refine((value) => !isNaN(Number(value)), {
       message: "Please enter a valid number",
-    }).optional(),
-    
+    })
+    .optional(),
+
   stock: z
     .string()
     .min(1, { message: "Stock is required" })
     .transform((value) => (value === "" ? "" : Number(value)))
     .refine((value) => !isNaN(Number(value)), {
       message: "Please enter a valid number",
-    }).optional(),
+    })
+    .optional(),
 });
 
 // Custom Hook for Editing Product
