@@ -5,15 +5,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/atoms/carousel";
-import ProductCard from "@/components/organisme/products/product-card";
+import ProductCardHoverEffect from "@/components/organisme/products/product-card-hover-effect";
 import Loader from "@/components/shared/loader";
 import { useProducts } from "@/features/product/hooks/use-products";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 
 const AdminProductsView = () => {
@@ -21,7 +15,6 @@ const AdminProductsView = () => {
   const { data: productsData, isLoading } = useProducts({ limit: limit });
 
   const { products, pagination } = productsData || {};
-  const isMobile = useIsMobile();
 
   if (isLoading) {
     return (
@@ -53,23 +46,7 @@ const AdminProductsView = () => {
       <header>
         <h1 className="text-2xl font-semibold">Products</h1>
       </header>
-      {isMobile ? (
-        <Carousel>
-          <CarouselContent>
-            {products?.map((product) => (
-              <CarouselItem key={product._id} className="basis-1/1">
-                <ProductCard isAdmin={true} product={product} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      ) : (
-        <main className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {products?.map((product) => (
-            <ProductCard isAdmin={true} key={product._id} product={product} />
-          ))}
-        </main>
-      )}
+      <ProductCardHoverEffect products={products} isAdmin />
 
       {pagination && pagination?.totalPages > 1 && (
         <footer className="flex justify-center">

@@ -5,22 +5,24 @@ import ActionDeleteProduct from "@/features/product/components/action-delete-pro
 import { IProduct } from "@/features/product/utils/product-interface";
 import { formatCurrency } from "@/lib/format-currency";
 import { Link } from "react-router-dom";
-import PopUpEditProduct from "./popup-edit-product";
-import PopupAddToCart from "../carts/popup-add-to-cart";
+import ModalAddCart from "../carts/modal-add-cart";
+import { cn } from "@/lib/utils";
+import ModalEditProduct from "./modal-edit-product";
 
 interface IProps {
   isAdmin?: boolean;
   product: IProduct;
+  className?: string;
 }
 
 const ProductCard = (props: IProps) => {
-  const { isAdmin, product } = props;
+  const { isAdmin, product, className } = props;
 
   if (isAdmin) {
     return (
       <Card
         key={product._id}
-        className=" max-w-[300px] w-full h-full rounded-md overflow-hidden"
+        className="w-full max-w-[300px] md:max-w-none md:h-full rounded-md overflow-hidden"
       >
         <Link
           to={`/collections/detail/${product._id}`}
@@ -43,8 +45,8 @@ const ProductCard = (props: IProps) => {
             </h1>
           </CardContent>
         </Link>
-        <CardFooter className="flex items-center justify-between gap-2">
-          <PopUpEditProduct product={product} />
+        <CardFooter className="flex items-center justify-center gap-4">
+          <ModalEditProduct product={product} />
           <ActionDeleteProduct productId={product._id} />
         </CardFooter>
       </Card>
@@ -54,36 +56,37 @@ const ProductCard = (props: IProps) => {
   return (
     <Card
       key={product._id}
-      className=" max-w-[300px] w-full h-full rounded-md overflow-hidden"
+      className={cn(
+        "min-w-[240px] w-full h-full rounded-md overflow-hidden",
+        className
+      )}
     >
       <Link
         to={`/collections/detail/${product._id}`}
         className="flex flex-col items-start justify-center"
       >
-        <figure className="relative w-full">
+        <figure className="relative w-full h-full max-h-[300px] aspect-square shadow-sm">
           <img
             src={product.image[0]}
             alt={product.name}
-            className="aspect-square w-full object-cover object-center"
+            className="w-full h-full object-cover object-center aspect-square"
           />
           <Badge variant={"secondary"} className="absolute top-2 right-2">
-            <span className="capitalize">{product.category.name}</span>
+            <span className="capitalize text-xs">{product.category.name}</span>
           </Badge>
         </figure>
         <CardContent className="pt-2">
-          <h2 className="text-base font-medium">{product.name}</h2>
-          <h1 className="text-xl font-semibold">
+          <h2 className="text-sm font-medium">{product.name}</h2>
+          <h1 className="text-base font-semibold">
             {formatCurrency(product.price)}
           </h1>
         </CardContent>
       </Link>
       <CardFooter className="flex items-center justify-between gap-2">
-        <PopupAddToCart product={product} />
+        <ModalAddCart productId={product._id} productStock={product.stock} />
       </CardFooter>
     </Card>
   );
 };
-
-
 
 export default ProductCard;

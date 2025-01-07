@@ -67,7 +67,7 @@ const FormAddToCart = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("w-full flex flex-col gap-2", className)}
+        className={cn("flex flex-col gap-2", className)}
       >
         <div className="flex gap-x-2 w-fit">
           <Button
@@ -118,7 +118,7 @@ const FormAddToCart = ({
         </div>
         <Button
           variant={"secondary"}
-          className="w-fit text-xs xs:text-sm px-2 h-8 xs:h-9"
+          className="w-full text-xs xs:text-sm px-2 h-8 xs:h-9"
           type="submit"
           disabled={isLoading}
         >

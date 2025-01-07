@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import CategoryCardHoverEffect from "@/components/organisme/category/category-card-hover-effect";
 import { HeaderPage, HeaderPageTitle } from "@/components/atoms/header-page";
-import CategoryCard from "@/components/organisme/category/category-card";
 import Loader from "@/components/shared/loader";
 import { useCategories } from "@/features/categories/hooks/use-categories";
 import { cn } from "@/lib/utils";
@@ -45,15 +45,7 @@ const AdminCategoriesView = () => {
       <HeaderPage>
         <HeaderPageTitle>Categories</HeaderPageTitle>
       </HeaderPage>
-      <main className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
-        {categories?.map((category) => (
-          <CategoryCard
-            hideFooter={false}
-            key={category._id}
-            category={category}
-          />
-        ))}
-      </main>
+      <CategoryCardHoverEffect items={categories!} hideFooter={false} />
     </div>
   );
 };

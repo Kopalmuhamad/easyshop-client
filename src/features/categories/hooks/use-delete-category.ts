@@ -11,7 +11,7 @@ export const useDeleteCategory = () => {
       await axiosWithConfig.delete(`/category/${id}`);
     },
     onSuccess: () => {
-      navigate("/admin/categories");
+      navigate(0);
       toast({
         title: "Category deleted",
         description: "Category deleted successfully",

@@ -61,7 +61,10 @@ const AddressView = () => {
           <HeaderPageContent>
             <HeaderPageTitle>Address</HeaderPageTitle>
             <div className="flex justify-end py-4">
-              <Link to={"create"} className={cn(buttonVariants({}))}>
+              <Link
+                to={"create"}
+                className={cn(buttonVariants({ variant: "secondary" }))}
+              >
                 <PlusIcon />
                 <span>Add new address</span>
               </Link>

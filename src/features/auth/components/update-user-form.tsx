@@ -13,7 +13,6 @@ import { updateUserSchema, useUpdateUser } from "../hooks/use-update-user";
 import { useCurrentUser } from "../hooks/use-current-user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/atoms/input";
-import { DialogClose } from "@/components/atoms/dialog";
 import { Button } from "@/components/atoms/button";
 import Loader from "@/components/shared/loader";
 import {
@@ -182,11 +181,6 @@ const UpdateUserForm = () => {
         />
 
         <div className="mt-4 flex justify-between">
-          <DialogClose type="button" className="btn btn-secondary">
-            <Button type="button" variant={"destructive"}>
-              Cancel
-            </Button>
-          </DialogClose>
           <Button
             variant={"secondary"}
             type="submit"

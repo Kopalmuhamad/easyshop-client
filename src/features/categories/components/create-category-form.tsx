@@ -16,13 +16,16 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/atoms/input";
 import { Button } from "@/components/atoms/button";
+import Loader from "@/components/shared/loader";
 
 const CreateCategoryForm = () => {
   const form = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
   });
 
-  const { mutate: create } = useCreateCategory();
+  const { mutate: create, status } = useCreateCategory();
+
+  const isLoading = status === "pending";
 
   const onSubmit = async (data: z.infer<typeof categorySchema>) => {
     const formData = new FormData();
@@ -33,7 +36,7 @@ const CreateCategoryForm = () => {
       formData.append("image", data.image[0]);
     }
 
-    await create(formData);
+    create(formData);
   };
   return (
     <Form {...form}>
@@ -70,8 +73,8 @@ const CreateCategoryForm = () => {
             </FormItem>
           )}
         />
-        <Button variant={"secondary"} type="submit">
-          Create
+        <Button variant={"secondary"} type="submit" disabled={isLoading}>
+          {isLoading ? <Loader size="xs" /> : "Create"}
         </Button>
       </form>
     </Form>

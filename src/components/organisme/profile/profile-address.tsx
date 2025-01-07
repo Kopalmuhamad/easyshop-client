@@ -100,7 +100,7 @@ const ProfileAddress = ({ address }: IProps) => {
         </div>
         <div className="mt-4">
           <MapContainer
-            className="h-[300px]"
+            className="h-[300px] -z-0"
             center={{
               lat: address?.coordinates?.latitude || 0,
               lng: address?.coordinates?.longitude || 0,

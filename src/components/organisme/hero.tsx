@@ -1,57 +1,63 @@
-import Autoplay from "embla-carousel-autoplay";
-import { ArrowRightIcon } from "lucide-react";
+import Container from "../shared/container";
 import { buttonVariants } from "../atoms/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../atoms/carousel";
+import Particles from "../atoms/particles";
+import { useEffect, useState } from "react";
+import { useTheme } from "@/providers/theme-provider";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { HeroHighlight, Highlight } from "../atoms/hero-highlight";
+import { motion } from "framer-motion";
 
 const Hero = () => {
+  const { theme } = useTheme();
+  const [color, setColor] = useState("#ffffff");
+
+  useEffect(() => {
+    setColor(theme === "dark" ? "#ffffff" : "#000000");
+  }, [theme]);
   return (
-    <div className="bg-secondary text-secondary-foreground grid grid-cols-1 md:grid-cols-[1fr_1fr] h-full min-h-[70vh] items-center">
-      <div className="space-y-2 md:space-y-8 relative z-[49] h-full w-full backdrop-blur-sm flex flex-col items-start justify-center pl-8">
-        <h1 className="font-playfair text-4xl md:text-8xl">Summer Sale</h1>
-        <h3 className="text-3xl md:text-6xl font-bold">50% Off</h3>
-        <p className="text-sm md:text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-          perferendis reiciendis deleniti cumque ad nihil iste laboriosam sint
-          quos nostrum.
-        </p>
-        <Link
-          to="/collections"
-          className={buttonVariants({ variant: "secondary" })}
-        >
-          Shop Now <ArrowRightIcon />
-        </Link>
-      </div>
-      <Carousel
-        className="absolute z-30 left-0 right-0"
-        opts={{ loop: true }}
-        plugins={[
-          Autoplay({
-            delay: 2000,
-          }),
-        ]}
-      >
-        <CarouselContent className="w-full h-full">
-          <CarouselItem
-            className="w-full h-[70vh] bg-[url('https://www.acehardware.co.id/files/tematik_desember/Web%20banner_NEWW_YEAR%20END%20SALE_1105%20x%20487%20Title%20Banner.jpg')] bg-cover bg-center"
-            style={{}}
-          ></CarouselItem>
-          <CarouselItem
-            className="w-full h-[70vh] bg-[url('https://www.abbaloveministries.org/wp-content/uploads/2023/11/htDes2023.jpg')] bg-cover bg-center"
-            style={{}}
-          ></CarouselItem>
-        </CarouselContent>
-        <div className="absolute flex items-center justify-center gap-4 bottom-0 left-3/4 -translate-x-1/2">
-          <CarouselPrevious className="static" />
-          <CarouselNext className="static" />
+    <div className="relative overflow-hidden">
+      <Particles
+        className="absolute inset-0 z-0"
+        quantity={600}
+        ease={200}
+        color={color}
+        refresh
+      />
+      <Container className="min-h-[70vh] h-full flex items-center justify-center">
+        <div className="flex items-start md:items-center justify-center flex-col">
+          <HeroHighlight className="text-start md:text-center text-4xl md:text-5xl font-bold font-playfair uppercase">
+            <motion.h1
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: [20, -5, 0],
+              }}
+              transition={{
+                duration: 0.5,
+                ease: [0.4, 0.0, 0.2, 1],
+              }}
+            >
+              Welcome to
+              <Highlight className="mx-2">
+                Easyshop
+              </Highlight>
+            </motion.h1>
+          </HeroHighlight>
+          <p className="text-start md:text-center mt-4 font-medium">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit
+          </p>
+          <Link
+            to={"/collections"}
+            className={cn(buttonVariants({ variant: "default" }), "mt-5")}
+          >
+            Explore our collections
+          </Link>
         </div>
-      </Carousel>
+      </Container>
     </div>
   );
 };

@@ -37,7 +37,7 @@ const ProfileDropdown = ({ currentUser }: IProps) => {
           <AvatarFallback>CV</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="z-[1002]">
+      <DropdownMenuContent>
         <Link to="/profile">
           <DropdownMenuItem className="cursor-pointer">
             <span>
@@ -80,9 +80,7 @@ const ProfileDropdown = ({ currentUser }: IProps) => {
           </span>
           <span>Logout</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
-          <ModeToggle />
-        </DropdownMenuItem>
+        <ModeToggle />
       </DropdownMenuContent>
     </DropdownMenu>
   );

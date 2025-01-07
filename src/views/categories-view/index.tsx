@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/atoms/card";
+import CategoryCardHoverEffect from "@/components/organisme/category/category-card-hover-effect";
 import {
   HeaderPage,
   HeaderPageContent,
   HeaderPageTitle,
 } from "@/components/atoms/header-page";
-import CategoryCard from "@/components/organisme/category/category-card";
 import Container from "@/components/shared/container";
 import Loader from "@/components/shared/loader";
 import { useCategories } from "@/features/categories/hooks/use-categories";
@@ -41,11 +41,7 @@ const CategoriesView = () => {
           <HeaderPageTitle>Categories</HeaderPageTitle>
         </HeaderPageContent>
       </HeaderPage>
-      <main className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-13 gap-4">
-        {categories?.map((category) => (
-          <CategoryCard key={category._id} category={category} />
-        ))}
-      </main>
+      <CategoryCardHoverEffect items={categories} />
     </Container>
   );
 };

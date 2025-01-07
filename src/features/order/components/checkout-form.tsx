@@ -22,6 +22,7 @@ import {
   setCheckoutSuccess,
 } from "@/store/slices/payment-slicer";
 import { cn } from "@/lib/utils";
+import Loader from "@/components/shared/loader";
 
 interface Items {
   productId: string;
@@ -38,16 +39,21 @@ interface IProps {
   className?: string;
 }
 
-const CheckoutForm = ({
-  className,
-  address,
-  products,
-  paymentType,
-  bankName,
-}: IProps) => {
+const CheckoutForm = (props: IProps) => {
+  // Props
+  const { className, address, products, paymentType, bankName } = props;
+
+  // State
   const [token, setToken] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Redux
   const dispatch = useDispatch();
+
+  // Fetching Data
   const { data: user } = useCurrentUser();
+
+  // Hook Form
   const form = useForm<z.infer<typeof checkoutSchema>>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -74,16 +80,16 @@ const CheckoutForm = ({
       },
     },
   });
-
   const { control, handleSubmit } = form;
-
   const { fields: itemFields, append: appendItem } = useFieldArray({
     control,
     name: "products",
   });
 
+  // Handle submit
   const onSubmit = async (data: z.infer<typeof checkoutSchema>) => {
     try {
+      setLoading(true);
       const config = {
         headers: {
           Accept: "application/json",
@@ -101,9 +107,12 @@ const CheckoutForm = ({
         description: error + "Terjadi kesalahan saat mengirim data.",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Reset Form
   useEffect(() => {
     form.reset({
       ...form.getValues(),
@@ -114,6 +123,7 @@ const CheckoutForm = ({
     });
   }, [paymentType, bankName]);
 
+  // Window snap
   useEffect(() => {
     if (token) {
       window.snap.pay(token, {
@@ -146,6 +156,7 @@ const CheckoutForm = ({
     }
   }, [token]);
 
+  // Create script in html
   useEffect(() => {
     const midtransUrl = import.meta.env.VITE_MIDTRANS_SNAP_SCRIPT;
 
@@ -369,8 +380,8 @@ const CheckoutForm = ({
           </div>
         </div>
         {/* Submit Button */}
-        <Button type="submit" className="mt-4">
-          Submit
+        <Button type="submit" disabled={loading} className="mt-4">
+          {loading ? <Loader variant={"secondary"} /> : "Submit"}
         </Button>
       </form>
     </Form>
